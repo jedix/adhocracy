@@ -379,3 +379,18 @@ $(document).ready(function() {
         }); 
     }
 });
+
+//Proposal badgets javascript
+$(document).ready(function() {
+  //hide save button in proposal listing:
+  $(".badgetsform_save").hide()
+  //onClick submit form
+  $(".badgetsform_input").click(function() {
+      $(this).parent().submit();
+  });
+});
+
+//SPAM protection
+$(document).ready(function() {
+  $("#register_input_js").hide()
+});  
