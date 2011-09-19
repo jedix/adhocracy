@@ -28,11 +28,6 @@
     %>
 
     %if root is None:
-        %if can.comment.create_on(topic):
-            <div class="comment">
-                ${create_form(None, topic, variant=variant, ret_url=ret_url)}
-            </div>
-        %endif
         %if not len(_comments):
             <div class="infobox">
                 ${_("No comments were made yet.")}
@@ -43,7 +38,16 @@
     %for comment, tile in _comments:
         ${full(tile, comment, comments, recurse, ret_url=ret_url)}
     %endfor
+
+    %if root is None:
+        %if can.comment.create_on(topic):
+            <div class="comment">
+                ${create_form(None, topic, variant=variant, ret_url=ret_url)}
+            </div>
+        %endif
+    %endif
 </%def>
+
 
 <%def name="full(tile, comment, comments, recurse, ret_url='')">
     <%  
@@ -56,9 +60,9 @@
         </div>
         <div class="link">
             
-            <a href="javascript:toggle_comment(${comment.id});" onClick="return toggle_comment(${comment.id})">${comment.latest.title}</a>
-            ${_("by %(user)s, %(score)s points.") % dict(user=h.user.link(comment.creator, scope=comment.topic),
-                                                                                               score=tile.score)|n}
+            <a href="javascript:adhocracy.toggle_comment(${comment.id});" 
+               onClick="return adhocracy.toggle_comment(${comment.id})">${_("by %(user)s, %(score)s points.") % dict(user=h.user.link(comment.creator, scope=comment.topic), score=tile.score)|n}</a>
+            
         </div>
     </div>
     <div class="comment ${'hidden' if tile.is_low else ''}" id="c${comment.id}">
@@ -69,13 +73,13 @@
             <div class="logo rate">
                 %if can.comment.rate(comment):
                     <a class="up icon otip" title="${_("Support this comment")}" href="${h.entity_url(comment.poll, member='rate')}?position=1&${h.url_token()}" 
-                        onclick="return rate('#tile_c${comment.id}', ${comment.poll.id}, 1);">
+                        onclick="return adhocracy.rate('#tile_c${comment.id}', ${comment.poll.id}, 1);">
                         &nbsp;
                     </a>
                     <a href="${h.entity_url(comment.poll, member='votes')}" 
                         class="score">${tile.score}</a>
                     <a class="down icon ttip" title="${_("Oppose this comment")}" href="${h.entity_url(comment.poll, member='rate')}?position=-1&${h.url_token()}" 
-                        onclick="return rate('#tile_c${comment.id}', ${comment.poll.id}, -1);">
+                        onclick="return adhocracy.rate('#tile_c${comment.id}', ${comment.poll.id}, -1);">
                         &nbsp;
                     </a>
                 %else:
@@ -93,7 +97,7 @@
             %endif
             <div class="top_actions comment">               
                 %if can.comment.edit(comment):
-                    <a class="button edit" onClick="return comment_edit(${comment.id})" href="${h.entity_url(comment, member='edit', query=dict(ret_url=ret_url))}">${_("edit")}</a> 
+                    <a class="button edit" onClick="return adhocracy.comment_edit(${comment.id})" href="${h.entity_url(comment, member='edit', query=dict(ret_url=ret_url))}">${_("edit")}</a> 
                 %endif
 
                 %if can.comment.delete(comment):
@@ -101,21 +105,16 @@
                 %endif
 
                 %if can.comment.reply(comment) and recurse:
-                    <a class="button add reply" onClick="return comment_reply(${comment.id})" href="/comment/new?reply=${comment.id}&topic=${comment.topic.id}&wiki=1&ret_url=${ret_url}">${_("reply")}</a>
+                    <a class="button add reply" onClick="return adhocracy.comment_reply(${comment.id})" href="/comment/new?reply=${comment.id}&topic=${comment.topic.id}&wiki=1&ret_url=${ret_url}">${_("reply")}</a>
                 %endif 
 
-                <a class="button delete showjs" onClick="return toggle_comment(${comment.id})">${_("hide")}</a>
+                <a class="button delete showjs" 
+                   onClick="return adhocracy.toggle_comment(${comment.id})">${_("hide")}</a>
             </div>
                 
             <div class="title">
                 %if comment.is_deleted():
                     ${_("(deleted)")}
-                %else:
-                    %if comment.latest.has_title:
-                        ${comment.latest.title}
-                    %else:
-                        &nbsp;
-                    %endif
                 %endif
             </div>
             
@@ -151,7 +150,7 @@
                     &middot;
                     <a href="${h.abuse.for_entity(comment)}">${_("report")}</a>
                     &middot;
-                    <a href="${h.entity_url(comment, comment_page=True)}">${_("link")}</a>
+                    <a href="${h.entity_url(comment, comment_page=True)}">${_("link")}</a>                    <a href="#" class="thread">Show subthread</a>
                 %endif
                 <a name="c${comment.id}">&nbsp;</a>
             </div>
@@ -178,9 +177,6 @@
         ${h.field_token()|n}
         <input type="hidden" name="_method" value="PUT" />
         <input type="hidden" name="ret_url" value="${ret_url}" />
-        
-        <label for="title" class="inline">${_("Title:")}</label>
-        <input class="textinput" name="title" value="${comment.latest.title}" />
         
         %if comment.is_root:
             ${_("argumenting:")}
@@ -214,9 +210,6 @@
         %endif
         <div style="width: auto;">
         
-        <label for="title" class="inline">${_("Title:")}</label>
-        <input class="textinput" name="title" value="${h.propose_comment_title(parent=parent, topic=topic, variant=variant)}" />
-        
         %if not parent:
             <label for="sentiment" class="inline">${_("Argumenting:")}</label>
             <% pos = topic.user_position(c.user) %>
@@ -246,7 +239,7 @@
 <%def name="header(tile, comment, active)">
     <div class="top_actions title">
         %if can.comment.edit(comment):
-            <a class="button edit" onClick="return comment_edit(${comment.id})" 
+            <a class="button edit" onClick="return adhocracy.comment_edit(${comment.id})" 
                 href="${h.entity_url(comment, member='edit')}">${_("edit")}</a> 
         %endif
                         
