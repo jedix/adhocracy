@@ -28,8 +28,8 @@ badge_table = Table(
                                               ondelete="CASCADE",),
            nullable=True),
     # attributes for UserBadges
-    Column('group_id', Integer, ForeignKey('group.id', ondelete="CASCADE")),
-    Column('display_group', Boolean, default=False))
+    Column('role_id', Integer, ForeignKey('role.id', ondelete="CASCADE")),
+    Column('display_role', Boolean, default=False))
 
 
 # --[ relation tables ]-----------------------------------------------------
@@ -180,11 +180,11 @@ class UserBadge(Badge):
     polymorphic_identity = 'user'
 
     @classmethod
-    def create(cls, title, color, description, group=None,
-               display_group=False, instance=None):
+    def create(cls, title, color, description, role=None,
+               display_role=False, instance=None):
         badge = cls(title, color, description, instance)
-        badge.group = group
-        badge.display_group = display_group
+        badge.role = role
+        badge.display_role = display_role
         meta.Session.add(badge)
         meta.Session.flush()
         return badge
@@ -196,7 +196,7 @@ class UserBadge(Badge):
 
     def to_dict(self):
         d = super(UserBadge, self).to_dict()
-        d['group'] = self.group.code if self.group else None,
+        d['role'] = self.role.code if self.role else None,
         d['users'] = [user.name for user in self.users]
         return d
 
@@ -292,3 +292,4 @@ class DelegateableBadges(Badges):
 class CategoryBadge(DelegateableBadge):
 
     polymorphic_identity = 'category'
+

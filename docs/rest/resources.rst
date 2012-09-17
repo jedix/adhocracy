@@ -64,7 +64,7 @@ update
   * ``allow_delegate``: Whether to enable delegated voting (``bool``).
   * ``allow_index``: Allow search engine indexing (via robots.txt, ``bool``).
   * ``hidden``: Show instance in listings. 
-  * ``default_group``: Default group for newly joined members (one of: ``observer``, ``advisor``, ``voter``, ``supervisor``).
+  * ``default_role``: Default role for newly joined members (one of: ``observer``, ``advisor``, ``voter``, ``supervisor``).
 
 
 delete
@@ -129,7 +129,7 @@ index
 * Parameters:
 
   * ``users_q``: A search query to filter with. 
-  * ``users_filter``: Filter by membership group (only in an instance context).
+  * ``users_filter``: Filter by membership role (only in an instance context).
 
 * *Note*: If no instance is specified, all registered users will be returned. 
 
@@ -235,7 +235,7 @@ proposals
 * Pager prefix: ``proposals_``
 
 
-groupmod
+rolemod
 ********
 
 * Modify a user's membership in the current instance
@@ -245,7 +245,7 @@ groupmod
 * Authentication: yes *(requires instance admin privileges)*
 * Parameters: 
 
-  * ``to_group``: Target group (one of: ``observer``, ``advisor``, ``voter``, ``supervisor``). 
+  * ``to_role``: Target role (one of: ``observer``, ``advisor``, ``voter``, ``supervisor``). 
 
 
 kick

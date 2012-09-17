@@ -41,17 +41,17 @@ class AdminController(BaseController):
     @ActionProtector(has_permission("global.admin"))
     def permissions(self):
         if request.method == "POST":
-            groups = model.Group.all()
+            roles = model.Role.all()
             for permission in model.Permission.all():
-                for group in groups:
+                for role in roles:
                     t = request.params.get("%s-%s" % (
-                            group.code, permission.permission_name))
-                    if t and permission not in group.permissions:
-                        group.permissions.append(permission)
-                    elif not t and permission in group.permissions:
-                        group.permissions.remove(permission)
-            for group in groups:
-                model.meta.Session.add(group)
+                            role.code, permission.permission_name))
+                    if t and permission not in role.permissions:
+                        role.permissions.append(permission)
+                    elif not t and permission in role.permissions:
+                        role.permissions.remove(permission)
+            for role in roles:
+                model.meta.Session.add(role)
             model.meta.Session.commit()
         return render("/admin/permissions.html")
 
@@ -110,7 +110,7 @@ class AdminController(BaseController):
                 mailed.append(user.user_name)
                 if c.instance:
                     membership = model.Membership(user, c.instance,
-                                                  c.instance.default_group)
+                                                  c.instance.default_role)
                     model.meta.Session.expunge(membership)
                     model.meta.Session.add(membership)
                     model.meta.Session.commit()
@@ -125,3 +125,4 @@ class AdminController(BaseController):
         c.not_mailed = set(created) - set(mailed)
         c.errors = errors
         return render("/admin/import_success.html")
+

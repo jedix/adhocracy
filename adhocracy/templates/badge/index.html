@@ -12,17 +12,17 @@
 <a href="${c.badge_base_url}/edit/${badge_id}">${_('Edit')}</a>
 </%def>
 
-<%def name="render_tables(badges, type_, groups, table_def)">
-%for group in groups:
+<%def name="render_tables(badges, type_, roles, table_def)">
+%for role in roles:
 <%
-permission = group['permission']
-label = group['label']
-group_exists = permission in badges
+permission = role['permission']
+label = role['label']
+role_exists = permission in badges
 badge_items = badges.get(permission, {}).get(type_, None)
 %>
-    %if h.has_permission(permission) and group_exists:
-        %if group['show_label']:
-        <h4>${group['label']}</h4>
+    %if h.has_permission(permission) and role_exists:
+        %if role['show_label']:
+        <h4>${role['label']}</h4>
         %endif
     %if badge_items:
     ${table_def(badge_items)}
@@ -43,7 +43,7 @@ badge_items = badges.get(permission, {}).get(type_, None)
         <th>${_("Description")}</th>
         <th>${_("Color")}</th>
         <th>${_("Preview")}</th>
-        <th>${_("Assigned Group")}</th>
+        <th>${_("Assigned Role")}</th>
         <th>${_("Display")}</th>
         <th>${_("Actions")}</th>
       </thead>
@@ -53,8 +53,8 @@ badge_items = badges.get(permission, {}).get(type_, None)
         <td>${badge.description and (badge.description[:20] + u'...') or ''}</td>
         <td>${badge.color}</td>
         <td>${tiles.badge(badge)}</td>
-        <td>${badge.group and badge.group.group_name or ""}</td>
-        <td>${badge.display_group and _("yes") or _("no")}</td>
+        <td>${badge.role and badge.role.role_name or ""}</td>
+        <td>${badge.display_role and _("yes") or _("no")}</td>
         
         <td>${edit_button(badge.id)}</td>
       </tr>
@@ -154,27 +154,27 @@ ${self.badges_listing()}
      href="${c.badge_base_url}/user/add">${_("New")}</a>
   </span>
   </h2>
-  ${render_tables(c.badges, 'user', c.groups, user_badges_table)}
+  ${render_tables(c.badges, 'user', c.roles, user_badges_table)}
 
 
   <h2>${_("Proposal Badges")}
   <a style="margin-bottom: 0.3em" class="btn btn-mini plus" 
      href="${c.badge_base_url}/delegateable/add">${_("New")}</a>
   </h2>
-  ${render_tables(c.badges, 'delegateable', c.groups, delegateable_badges_table)}
+  ${render_tables(c.badges, 'delegateable', c.roles, delegateable_badges_table)}
 
 
   <h2>${_("Proposal Category Badges")}
   <a style="margin-bottom: 0.3em" class="btn btn-mini plus" 
      href="${c.badge_base_url}/category/add">${_("New")}</a>
   </h2>
-  ${render_tables(c.badges, 'category', c.groups, category_badges_table)}
+  ${render_tables(c.badges, 'category', c.roles, category_badges_table)}
   
 
   <h2>${_("Instance Badges")}
   <a style="margin-bottom: 0.3em" class="btn btn-mini plus" 
      href="${c.badge_base_url}/instance/add">${_("New")}</a>
   </h2>
-  ${render_tables(c.badges, 'instance', c.groups, instance_badges_table)} 
+  ${render_tables(c.badges, 'instance', c.roles, instance_badges_table)} 
 </%def>
 

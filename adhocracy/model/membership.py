@@ -20,16 +20,16 @@ membership_table = Table(
            onupdate=datetime.utcnow),
     Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('instance_id', Integer, ForeignKey('instance.id'), nullable=True),
-    Column('group_id', Integer, ForeignKey('group.id'), nullable=False),
+    Column('role_id', Integer, ForeignKey('role.id'), nullable=False),
     )
 
 
 class Membership(object):
 
-    def __init__(self, user, instance, group, approved=True):
+    def __init__(self, user, instance, role, approved=True):
         self.user = user
         self.instance = instance
-        self.group = group
+        self.role = role
         self.approved = approved
 
     @classmethod
@@ -72,4 +72,5 @@ class Membership(object):
         return u"<Membership(%d,%s,%s,%s)>" % (self.id,
                                                self.user.user_name,
                                                key,
-                                               self.group.code)
+                                               self.role.code)
+

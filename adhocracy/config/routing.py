@@ -43,7 +43,7 @@ def make_map():
                                          'votes': 'GET',
                                          'instances': 'GET',
                                          'watchlist': 'GET',
-                                         'groupmod': 'GET',
+                                         'rolemod': 'GET',
                                          'ban': 'GET',
                                          'unban': 'GET',
                                          'ask_delete': 'GET',

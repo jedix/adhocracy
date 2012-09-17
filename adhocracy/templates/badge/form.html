@@ -64,22 +64,22 @@ ${self.form()}
             adhocracy.helpers.initializeBadgeColorPicker('#color', '${h.site.domain()}.colors.badge')})
     </script>
     %if c.badge_type == 'user':
-    <label for="group" class="">
-        ${_("Group")}
+    <label for="role" class="">
+        ${_("Role")}
     </label>
 
-    <select name="group"> 
-        <option value="">${_("No Group")}</option>
-        %for group in c.groups:
-        <option value="${group.code}">${group.group_name}</option>
+    <select name="role"> 
+        <option value="">${_("No Role")}</option>
+        %for role in c.roles:
+        <option value="${role.code}">${role.role_name}</option>
         %endfor
     </select>
-    <span class="hint">${_("Assign the user to this group for all instances in the adhocracy site.")}</span>
+    <span class="hint">${_("Assign the user to this role for all instances in the adhocracy site.")}</span>
 
-    <label for="display_group" 
-           class="">${_("Display group in instances")}</label>
-    <input type="checkbox"  name="display_group" id="display_group" />
-    <span class="hint">${_("Display this group in instances instead of the normal group the user is in there.")}</span>
+    <label for="display_role" 
+           class="">${_("Display role in instances")}</label>
+    <input type="checkbox"  name="display_role" id="display_role" />
+    <span class="hint">${_("Display this role in instances instead of the normal role the user is in there.")}</span>
     %endif
 
     %if h.has_permission('global.admin'):

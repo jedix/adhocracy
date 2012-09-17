@@ -17,10 +17,10 @@ import adhocracy.model as model
 log = logging.getLogger(__name__)
 
 
-class InstanceGroupSourceAdapter(SqlGroupsAdapter):
+class InstanceRoleSourceAdapter(SqlGroupsAdapter):
 
     def __init__(self, *args, **kwargs):
-        super(InstanceGroupSourceAdapter, self).__init__(model.Group,
+        super(InstanceRoleSourceAdapter, self).__init__(model.Role,
                                                          model.User,
                                                          model.meta.Session)
         self.is_writable = False
@@ -28,15 +28,15 @@ class InstanceGroupSourceAdapter(SqlGroupsAdapter):
     def _get_section_items(self, section):
         q = model.meta.Session.query(model.User.user_name)
         q = q.join(model.Membership)
-        q = q.join(model.Group)
-        q = q.filter(model.Group.code == section)
+        q = q.join(model.Role)
+        q = q.filter(model.Role.code == section)
         q = q.filter(
             or_(model.Membership.instance == None,
                 model.Membership.instance == model.filter.get_instance()))
         return q.all()
 
     def _find_sections(self, credentials):
-        sections = super(InstanceGroupSourceAdapter,
+        sections = super(InstanceRoleSourceAdapter,
                          self)._find_sections(credentials)
         sections.add(u"Anonymous")
         return sections
@@ -65,28 +65,28 @@ class has_permission(what_has_permission):
             super(has_permission, self).evaluate(environ, credentials)
         else:
             if environ.get('anonymous_permissions') is None:
-                anon_group = model.Group.by_code(model.Group.CODE_ANONYMOUS)
+                anon_role = model.Role.by_code(model.Role.CODE_ANONYMOUS)
                 environ['anonymous_permissions'] = [p.permission_name for p in
-                                                    anon_group.permissions]
+                                                    anon_role.permissions]
             if not self.permission_name in environ['anonymous_permissions']:
                 self.unmet()
 
 
 class has_default_permission(what_has_permission):
     """
-    Checks whether a member of the default group of the given instance has the
+    Checks whether a member of the default role of the given instance has the
     given permission.
     """
 
     def evaluate(self, environ, credentials):
         if environ.get('default_permissions') is None:
             if c.instance is not None:
-                default_group = c.instance.default_group
+                default_role = c.instance.default_role
             else:
-                default = model.Group.INSTANCE_DEFAULT
-                default_group = model.Group.by_code(default)
+                default = model.Role.INSTANCE_DEFAULT
+                default_role = model.Role.by_code(default)
             environ['default_permissions'] = [p.permission_name for p in
-                    default_group.permissions]
+                    default_role.permissions]
         if not self.permission_name in environ['default_permissions']:
             self.unmet()
 
@@ -170,3 +170,4 @@ class AuthCheck(object):
         return (c.user is not None and not
                 c.user.is_member(c.instance) and
                 self._propose_join_or_login())
+

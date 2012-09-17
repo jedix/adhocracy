@@ -91,9 +91,9 @@ T_INSTANCE_FORCE_LEAVE = EventType(
 
 T_INSTANCE_MEMBERSHIP_UPDATE = EventType(
     u"t_instance_membership_update", pri=3,
-    subject=lambda: _(u"%(instance)s: %(user)s is now a %(group)s"),
+    subject=lambda: _(u"%(instance)s: %(user)s is now a %(role)s"),
     link_path=lambda e: h.entity_url(e.user),
-    event_msg=lambda: _(u"now is a %(group)s within %(instance)s"))
+    event_msg=lambda: _(u"now is a %(role)s within %(instance)s"))
 
 T_PROPOSAL_CREATE = EventType(
     u"t_proposal_create", pri=4,
@@ -225,7 +225,7 @@ N_INSTANCE_FORCE_LEAVE = NotificationType(
 
 N_INSTANCE_MEMBERSHIP_UPDATE = NotificationType(
     "n_instance_membership_update", pri=4,
-    subject=lambda: _(u"Membership: you're now a %(group)s in %(instance)s"),
+    subject=lambda: _(u"Membership: you're now a %(role)s in %(instance)s"),
     link_path=lambda e: h.entity_url(e.instance),
     notify_self=True)
 
@@ -262,3 +262,4 @@ N_COMMENT_EDIT = NotificationType(
 
 # The funny thing about this line is: YOU DO NOT SEE IT!
 TYPES = filter(lambda n: isinstance(n, NotificationType), map(eval, dir()))
+

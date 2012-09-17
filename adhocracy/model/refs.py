@@ -21,7 +21,7 @@ from pylons.i18n import _
 
 from comment import Comment
 from delegation import Delegation
-from group import Group
+from role import Role
 from instance import Instance
 from page import Page
 from permission import Permission
@@ -44,7 +44,7 @@ FORMAT = re.compile("@\[(.*):(.*)\]")
 
 TYPES = [Vote,
          User,
-         Group,
+         Role,
          Permission,
          Comment,
          Revision,
@@ -262,3 +262,4 @@ def complex_to_entities(refs):
     for the additional parameter of `to_entity` will be used.
     '''
     return _ify(to_entity, refs)
+

@@ -6,8 +6,8 @@ import meta
 
 log = logging.getLogger(__name__)
 
-group_permission_table = Table('group_permission', meta.data,
-    Column('group_id', Integer, ForeignKey('group.id',
+role_permission_table = Table('role_permission', meta.data,
+    Column('role_id', Integer, ForeignKey('role.id',
            onupdate="CASCADE", ondelete="CASCADE"), primary_key=True),
     Column('permission_id', Integer, ForeignKey('permission.id',
            onupdate="CASCADE", ondelete="CASCADE"), primary_key=True)
@@ -44,3 +44,4 @@ class Permission(object):
 
     def __repr__(self):
         return u"<Permission(%d,%s)>" % (self.id, self.permission_name)
+

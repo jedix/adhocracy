@@ -91,13 +91,13 @@ class UserFormatter(ObjectFormatter):
         return h.user.link(user)
 
 
-class GroupFormatter(ObjectFormatter):
+class RoleFormatter(ObjectFormatter):
 
-    def unicode(self, group):
-        return _(group.group_name)
+    def unicode(self, role):
+        return _(role.role_name)
 
-    def html(self, group):
-        return self.unicode(group)
+    def html(self, role):
+        return self.unicode(role)
 
 
 class VoteFormatter(ObjectFormatter):
@@ -126,7 +126,7 @@ class CommentFormatter(ObjectFormatter):
 class FormattedEvent(object):
 
     FORMATTERS = {model.Vote: VoteFormatter(),
-                  model.Group: GroupFormatter(),
+                  model.Role: RoleFormatter(),
                   model.User: UserFormatter(),
                   model.Instance: InstanceFormatter(),
                   model.Proposal: ProposalFormatter(),
@@ -162,3 +162,4 @@ def as_html(event):
         return _("(Undefined)")
     fe = FormattedEvent(event, lambda f, value: f.html(value))
     return event.event.event_msg() % fe
+

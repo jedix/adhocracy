@@ -86,31 +86,31 @@ class User(meta.Indexable):
     def email_hash(self):
         return hashlib.sha1(self.email).hexdigest()
 
-    def badge_groups(self):
-        groups = []
+    def badge_roles(self):
+        roles = []
         for badge in self.badges:
-            group = badge.group
-            if (group is not None and group not in groups):
-                groups.append(group)
-        return groups
+            role = badge.role
+            if (role is not None and role not in roles):
+                roles.append(role)
+        return roles
 
-    def membership_groups(self):
-        groups = []
+    def membership_roles(self):
+        roles = []
         for membership in self.memberships:
             if membership.is_expired():
                 continue
             if not membership.instance or \
                 membership.instance == ifilter.get_instance():
-                groups.append(membership.group)
-        return groups
+                roles.append(membership.role)
+        return roles
 
     @property
-    def groups(self):
-        return list(set(self.badge_groups() + self.membership_groups()))
+    def roles(self):
+        return list(set(self.badge_roles() + self.membership_roles()))
 
     def _has_permission(self, permission_name):
-        for group in self.groups:
-            for perm in group.permissions:
+        for role in self.roles:
+            for perm in role.permissions:
                 if perm.permission_name == permission_name:
                     return True
         return False
@@ -374,7 +374,7 @@ class User(meta.Indexable):
     @classmethod
     def create(cls, user_name, email, password=None, locale=None,
                openid_identity=None, global_admin=False, display_name=None):
-        from group import Group
+        from role import Role
         from membership import Membership
         from openid import OpenID
 
@@ -390,9 +390,9 @@ class User(meta.Indexable):
                     display_name=display_name)
         meta.Session.add(user)
 
-        # Add the global default group
-        default_group = Group.by_code(Group.CODE_DEFAULT)
-        default_membership = Membership(user, None, default_group)
+        # Add the global default role
+        default_role = Role.by_code(Role.CODE_DEFAULT)
+        default_membership = Membership(user, None, default_role)
         meta.Session.add(default_membership)
 
         # Autojoin the user in instances
@@ -406,12 +406,12 @@ class User(meta.Indexable):
                              if instance.key in instance_keys]
             for instance in instances:
                 autojoin_membership = Membership(user, instance,
-                                                 instance.default_group)
+                                                 instance.default_role)
                 meta.Session.add(autojoin_membership)
 
         if global_admin:
-            admin_group = Group.by_code(Group.CODE_ADMIN)
-            admin_membership = Membership(user, None, admin_group)
+            admin_role = Role.by_code(Role.CODE_ADMIN)
+            admin_membership = Membership(user, None, admin_role)
             meta.Session.add(admin_membership)
 
         if openid_identity is not None:
@@ -450,3 +450,4 @@ class User(meta.Indexable):
 
     def __repr__(self):
         return u"<User(%s,%s)>" % (self.id, self.user_name)
+

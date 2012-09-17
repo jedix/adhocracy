@@ -94,7 +94,7 @@ class InstanceEditForm(formencode.Schema):
     description = validators.String(max=100000, if_empty=None, not_empty=False)
     activation_delay = validators.Int(not_empty=True)
     required_majority = validators.Number(not_empty=True)
-    default_group = forms.ValidGroup(not_empty=True)
+    default_role = forms.ValidRole(not_empty=True)
     locale = validators.String(not_empty=False)
     allow_adopt = validators.StringBool(not_empty=False, if_empty=False,
                                         if_missing=False)
@@ -121,7 +121,7 @@ class InstanceGeneralEditForm(formencode.Schema):
     label = validators.String(min=4, max=254, not_empty=True)
     description = validators.String(max=100000, if_empty=None, not_empty=False)
     locale = validators.String(not_empty=False)
-    default_group = forms.ValidGroup(not_empty=True)
+    default_role = forms.ValidRole(not_empty=True)
     hidden = validators.StringBool(not_empty=False, if_empty=False,
                                    if_missing=False)
     is_authenticated = validators.StringBool(not_empty=False, if_empty=False,
@@ -447,17 +447,17 @@ class InstanceController(BaseController):
                               'label': locale.display_name,
                               'selected': locale == c.page_instance.locale})
 
-        c.default_group_options = []
-        c.default_group = (c.page_instance.default_group.code if
-                           c.page_instance.default_group else
-                           model.Group.INSTANCE_DEFAULT)
+        c.default_role_options = []
+        c.default_role = (c.page_instance.default_role.code if
+                           c.page_instance.default_role else
+                           model.Role.INSTANCE_DEFAULT)
 
-        for groupname in model.Group.INSTANCE_GROUPS:
-            group = model.Group.by_code(groupname)
-            c.default_group_options.append(
-                {'value': group.code,
-                 'label': h.literal(_(group.group_name)),
-                 'selected': group.code == c.default_group})
+        for rolename in model.Role.INSTANCE_ROLES:
+            role = model.Role.by_code(rolename)
+            c.default_role_options.append(
+                {'value': role.code,
+                 'label': h.literal(_(role.role_name)),
+                 'selected': role.code == c.default_role})
 
         rendered = render("/instance/settings_general.html")
         return rendered
@@ -473,7 +473,7 @@ class InstanceController(BaseController):
                 '_method': 'PUT',
                 'label': c.page_instance.label,
                 'description': c.page_instance.description,
-                'default_group': c.default_group,
+                'default_role': c.default_role,
                 'hidden': c.page_instance.hidden,
                 'locale': c.page_instance.locale,
                 'is_authenticated': c.page_instance.is_authenticated,
@@ -494,11 +494,11 @@ class InstanceController(BaseController):
                                              ['is_authenticated'])
             updated = updated or auth_updated
 
-        if (self.form_result.get('default_group').code in
-            model.Group.INSTANCE_GROUPS):
+        if (self.form_result.get('default_role').code in
+            model.Role.INSTANCE_ROLES):
             updated = updated or update_attributes(c.page_instance,
                                                    self.form_result,
-                                                   ['default_group'])
+                                                   ['default_role'])
         locale = Locale(self.form_result.get("locale"))
         if locale and locale in i18n.LOCALES:
             if c.page_instance.locale != locale:
@@ -786,7 +786,7 @@ class InstanceController(BaseController):
         require.instance.join(c.page_instance)
 
         membership = model.Membership(c.user, c.page_instance,
-                                      c.page_instance.default_group)
+                                      c.page_instance.default_role)
         model.meta.Session.expunge(membership)
         model.meta.Session.add(membership)
         model.meta.Session.commit()
@@ -842,3 +842,4 @@ class InstanceController(BaseController):
             abort(403, _("You cannot manipulate one instance from within "
                          "another instance."))
         return c.instance
+

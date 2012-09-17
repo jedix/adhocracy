@@ -60,7 +60,7 @@ def tt_make_proposal(creator=None, voting=False, title=None):
     return proposal
 
 
-def tt_make_user(name=None, instance_group=None):
+def tt_make_user(name=None, instance_role=None):
     if name is not None:
         name = unicode(name)
         user = model.meta.Session.query(model.User)
@@ -73,13 +73,13 @@ def tt_make_user(name=None, instance_group=None):
     user = model.User(name, u"test@test.test", u"test",
                       i18n.get_default_locale())
 
-    default_group = model.Group.by_code(model.Group.CODE_DEFAULT)
-    default_membership = model.Membership(user, None, default_group)
+    default_role = model.Role.by_code(model.Role.CODE_DEFAULT)
+    default_membership = model.Membership(user, None, default_role)
     memberships = [default_membership]
-    if instance_group:
+    if instance_role:
         instance = tt_get_instance()
-        group_membership = model.Membership(user, instance, instance_group)
-        memberships.append(group_membership)
+        role_membership = model.Membership(user, instance, instance_role)
+        memberships.append(role_membership)
     user.memberships = memberships
     model.meta.Session.add(user)
     model.meta.Session.flush()  # write to db and updated db

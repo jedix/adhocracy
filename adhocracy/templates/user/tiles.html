@@ -46,10 +46,10 @@
         %endif
         
         %if can.user.supervise(user):
-            %for group_code in model.Group.INSTANCE_GROUPS:
-                %if group_code != tile.instance_group.code:
-                    <a class="button admin" href="${h.entity_url(user, member='groupmod')}?to_group=${group_code}&amp;${h.url_token()}">
-                        ${_("make %s") % _(model.Group.by_code(group_code).group_name)}</a>
+            %for role_code in model.Role.INSTANCE_ROLES:
+                %if role_code != tile.instance_role.code:
+                    <a class="button admin" href="${h.entity_url(user, member='rolemod')}?to_role=${role_code}&amp;${h.url_token()}">
+                        ${_("make %s") % _(model.Role.by_code(role_code).role_name)}</a>
                 %endif
             %endfor
             

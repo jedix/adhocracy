@@ -10,7 +10,7 @@ class UserTile(BaseTile):
 
     def __init__(self, user):
         self.user = user
-        self.__instance_group = None
+        self.__instance_role = None
         self.__instance_roles = None
 
     def _bio(self):
@@ -40,31 +40,31 @@ class UserTile(BaseTile):
 
     num_instances = property(_num_instances)
 
-    def _instance_group(self):
-        if c.instance and not self.__instance_group:
+    def _instance_role(self):
+        if c.instance and not self.__instance_role:
             m = self.user.instance_membership(c.instance)
-            self.__instance_group = m.group if m else None
-        return self.__instance_group
+            self.__instance_role = m.role if m else None
+        return self.__instance_role
 
-    instance_group = property(_instance_group)
+    instance_role = property(_instance_role)
 
     def _instance_roles(self):
         if c.instance and not self.__instance_roles:
             instance_roles = []
             for badge in self.user.badges:
-                if badge.group and badge.display_group:
-                    instance_roles.append(badge.group)
+                if badge.role and badge.display_role:
+                    instance_roles.append(badge.role)
             if instance_roles:
                 self.__instance_roles = instance_roles
             else:
-                self.__instance_roles = [self.instance_group]
+                self.__instance_roles = [self.instance_role]
 
         return self.__instance_roles
 
     instance_roles = property(_instance_roles)
 
     def translated_instance_role_names(self):
-        translated_names = [_(group.group_name) for group in
+        translated_names = [_(role.role) for role in
                             self.instance_roles]
         return ', '.join(translated_names)
 
