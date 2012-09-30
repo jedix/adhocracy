@@ -25,6 +25,8 @@ class Role(object):
     CODE_MODERATOR = u"moderator"
     CODE_ADMIN = u"admin"
     CODE_DEFAULT = u"default"
+    CODE_ADDRESSEE = u"addressee"
+
 
     INSTANCE_ROLES = [CODE_OBSERVER, CODE_VOTER, CODE_SUPERVISOR,
                        CODE_ADVISOR, CODE_MODERATOR]
