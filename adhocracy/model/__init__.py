@@ -44,7 +44,8 @@ from adhocracy.model.page import Page, page_table
 from adhocracy.model.text import Text, text_table
 from adhocracy.model.milestone import Milestone, milestone_table
 from adhocracy.model.selection import Selection, selection_table
-
+from adhocracy.model.group import Group, group_table
+from adhocracy.model.groupmembership import GroupMembership, group_membership_table
 
 mapper(User, user_table, properties={
     'email': synonym('_email', map_column=True),
@@ -418,6 +419,16 @@ mapper(Selection, selection_table, properties={
     'page': relation(
             Page, lazy=True, backref=backref('_selections'),
             primaryjoin=selection_table.c.page_id == page_table.c.id)
+    })
+
+mapper(Group, group_table)
+
+mapper(GroupMembership, group_membership_table, properties={
+    'user': relation(
+            User, lazy=True,
+            primaryjoin=group_membership_table.c.user_id == user_table.c.id,
+            backref=backref('group_memberships', lazy=True)),
+    'group': relation(Group, backref=backref('group_memberships'), lazy=False)
     })
 
 
