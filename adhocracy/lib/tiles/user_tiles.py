@@ -64,7 +64,7 @@ class UserTile(BaseTile):
     instance_roles = property(_instance_roles)
 
     def translated_instance_role_names(self):
-        translated_names = [_(role.role) for role in
+        translated_names = [_(role.role_name) for role in
                             self.instance_roles]
         return ', '.join(translated_names)
 

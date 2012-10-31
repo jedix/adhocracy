@@ -143,6 +143,8 @@ def comment_order(comments):
 def user_name(entities):
     return sorted(entities, key=lambda e: e.name.lower())
 
+def group_name(entities):
+    return sorted(entities, key=lambda e: e.group_name.lower())
 
 def milestone_time(entities):
     return sorted(entities, key=lambda e: e.time)

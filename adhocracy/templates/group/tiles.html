@@ -1,0 +1,18 @@
+<%namespace name="components" file="/components.html"/>
+<%namespace name="state" file="/poll/state.html"/>
+
+<%def name="row(tile, group)">
+    <li class="content_box">
+        <h3>
+            <a href="${h.entity_url(group)}">${group.group_name}</a> 
+            % if can.group.edit(group):
+            <span class="options">
+               <a class="btn" href="${h.entity_url(group, member='edit')}">${_('edit')}</a>
+               <a class="btn" href="${h.entity_url(group, member='members')}">${_('manage members')}</a>
+               <a class="btn" href="${h.entity_url(group, member='roles')}">${_('assign roles')}</a>
+            </span>
+            % endif
+        </h3>
+        <div class="hr"><hr /></div>
+    </li>
+</%def>

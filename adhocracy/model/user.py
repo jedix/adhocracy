@@ -7,13 +7,15 @@ from babel import Locale
 
 from pylons import config
 
-from sqlalchemy import Table, Column, func, or_
+from sqlalchemy import Table, Column, func, or_, not_
 from sqlalchemy import Boolean, DateTime, Integer, Unicode, UnicodeText
 from sqlalchemy.orm import eagerload_all
 
 from adhocracy.model import meta
 from adhocracy.model import instance_filter as ifilter
 from adhocracy.model.instance import Instance
+from adhocracy.model.membership import Membership
+from adhocracy.model.group import GroupMembership
 
 log = logging.getLogger(__name__)
 
@@ -104,9 +106,18 @@ class User(meta.Indexable):
                 roles.append(membership.role)
         return roles
 
+    def group_roles(self):
+        roles = []
+        for group_membership in self.group_memberships:
+            for group_role in group_membership.group.group_roles:
+                if (group_role.instance is None or group_role.instance == ifilter.get_instance()) and \
+                   group_role.role not in roles:
+                    roles.append(group_role.role)
+        return roles
+
     @property
     def roles(self):
-        return list(set(self.badge_roles() + self.membership_roles()))
+        return list(set(self.badge_roles() + self.membership_roles() + self.group_roles()))
 
     def _has_permission(self, permission_name):
         for role in self.roles:
@@ -122,6 +133,10 @@ class User(meta.Indexable):
             if (not membership.is_expired()) and \
                 membership.instance_id == instance.id:
                 return membership
+        for group_membership in self.group_memberships:
+            for group_role in group_membership.group.group_roles:
+                if group_role.instance == instance:
+                    return Membership(self, instance, group_role.role)
         return None
 
     def is_member(self, instance):
@@ -134,6 +149,9 @@ class User(meta.Indexable):
             if (not membership.is_expired()) and \
                 (membership.instance is not None):
                 instances.append(membership.instance)
+        for group_membership in self.group_memberships:
+            for group_role in group_membership.group.group_roles:
+                instances.append(group_role.instance)
         return list(set(instances))
 
     @property
@@ -252,6 +270,32 @@ class User(meta.Indexable):
             return None
 
     @classmethod
+    def search(cls, name_filter=None, include_group=None, exclude_group=None, include_deleted=False, limit=10, sql=False):
+        q = meta.Session.query(User)
+        if not include_deleted:
+            q = q.filter(or_(User.delete_time == None,
+                             User.delete_time > datetime.utcnow()))
+        if name_filter is not None:
+            name_filter = name_filter.lower()
+            q = q.filter(or_(func.lower(User.user_name).like(u"%" + name_filter + u"%"),
+                             func.lower(User.display_name).like(u"%" + name_filter + u"%"),
+                             func.lower(User.email).like(u"%" + name_filter + u"%")))
+        if include_group is not None:
+            q = q.join(GroupMembership)
+            q = q.filter(GroupMembership.group_id == include_group)
+            q = q.filter(GroupMembership.user_id == User.id)
+        if exclude_group is not None:
+            q1 = meta.Session.query(User.id)
+            q1 = q1.join(GroupMembership)
+            q1 = q1.filter(GroupMembership.group_id == exclude_group)
+            q1 = q1.filter(GroupMembership.user_id == User.id)
+            q = q.filter(not_(User.id.in_(q1)))
+        q = q.limit(limit)
+        if sql:
+            return q.statement
+        return sorted(q.all(), key=lambda user:user.name.lower())
+
+    @classmethod
     def find_by_email(cls, email, include_deleted=False):
         try:
             q = meta.Session.query(User)
@@ -263,6 +307,14 @@ class User(meta.Indexable):
         except Exception, e:
             log.warn("find_by_email(%s): %s" % (email, e))
             return None
+
+    @classmethod
+    #@meta.session_cached
+    def by_id(cls, id):
+        q = meta.Session.query(User)
+        q = q.filter(User.id == id)
+        return q.limit(1).first()
+
 
     @classmethod
     def find_all(cls, unames, instance_filter=True, include_deleted=False):

@@ -62,6 +62,8 @@ def setup_entities():
     mk_perm("global.admin", admins)
     mk_perm("global.member", admins)
     mk_perm("global.organization", organization)
+    mk_perm("group.manage", admins)
+    mk_perm("group.show", anonymous)
     mk_perm("instance.admin", supervisor)
     mk_perm("instance.create", admins)
     mk_perm("instance.delete", admins)
@@ -107,7 +109,7 @@ def setup_entities():
 
     observer.permissions = observer.permissions + anonymous.permissions
     advisor.permissions = advisor.permissions + observer.permissions
-    voter.permissions = voter.permissions + observer.permissions
+    voter.permissions = voter.permissions + advisor.permissions
     moderator.permissions = moderator.permissions + voter.permissions
     supervisor.permissions = list(set(supervisor.permissions
                                + moderator.permissions + advisor.permissions))

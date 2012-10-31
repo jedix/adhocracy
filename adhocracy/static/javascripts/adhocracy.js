@@ -601,4 +601,136 @@ $(document).ready(function () {
             }
         });
     });
+
+    var last_member_search = '';
+    /*$('body').delegate('#member_search', 'keyup', function(event) {
+        var self = $(this),
+            text;
+        if (last_member_search != self.val()) {
+            last_member_search = self.val();
+            $('.group-members li').addClass('hidden').each(function() {
+                var regex = new RegExp( '(<b\/?>)', 'gi' );
+                $('a', this).html($('a', this).html().replace(regex, ""));
+            });
+            $('.group-members li').filter(function(index) { 
+               return ($('a',this).html().search(self.val()) > -1);
+            }).removeClass('hidden').each(function() {
+                if (self.val() != "") {
+                    var regex = new RegExp( '(' + self.val() + ')', 'gi' );
+                    $('a', this).html($('a', this).html().replace(regex, "<b>$1</b>"));
+                }
+            });
+        }
+    });
+*/
+    var last_user_search = '';
+    $('body').delegate('#user_search, #member_search', 'keyup', function(event) {
+        var self = $(this),
+            url, html, link,
+            userid, username, email, mailhash, x,
+            action, list_class;
+
+        url = self.attr("data-ajax-url");
+        link = self.attr("data-link-href");
+        action = (self.attr("id") == "member_search") ? "remove" : "add";
+        list_class = (self.attr("id") == "member_search") ? "group-members" : "non-group-members";
+        if (self.val().trim() != '') {
+            url = url + "/" + self.val().trim();
+        }
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            success: function (data) {
+                html = "";
+                var regex = new RegExp( '(' + self.val() + ')', 'gi' );
+                for (x in data) {
+                    userid = data[x][0];
+                    username = data[x][1].replace(regex, "<b>$1</b>");
+                    email = data[x][2].replace(regex, "<b>$1</b>");
+                    mailhash = data[x][3];
+                    html = html + '<li><a class="change_group_member" action="' + action + '" href="' + link + userid +  '/' + action + '"><img src="https://www.gravatar.com/avatar/' + mailhash + '?s=25" />' + username + ' (' + email + ')</a></li>';
+                }
+                $('.' + list_class).html(html);
+            }
+        });
+
+    });
+
+    $('a.change_group_member').live('click', function(event) {
+        event.preventDefault();
+        var self = $(this),
+            widget_url = self.attr('href') + '.json',
+            action = self.attr('action'), 
+            other_action = (action == "add") ? "remove" : "add",
+            target_list = (self.hasClass("undo")) ? (action == "add" ? "group-members" : "non-group-members") : "recent_changes",
+            after_item;
+        $.ajax({
+            url: widget_url,
+            dataType: 'json',
+            success: function (data) {
+                if (data.message == "success") {
+                    $('#undo-box').show();
+                    if (target_list == "recent_changes") {
+                        self.addClass("undo");
+                        self.addClass(other_action);
+                    } else {
+                        self.removeClass("undo");
+                        self.removeClass(other_action);
+                    }
+                    self.attr('href', self.attr('href').replace(action, other_action));
+                    self.attr('action', other_action);
+                    after_item = "";
+                    $("body ul." + target_list + " li").each(function() {
+                        if ($('a', this).text().toLowerCase() > $('a', self.parent()).text().toLowerCase() && after_item.length == 0) {
+                            after_item = $(this);
+                        }
+                    });
+                    if (after_item.length > 0) {
+                        after_item.before(self.parent())
+                    } else {
+                        $('body ul.' + target_list).append(self.parent());
+                    }
+                } else {
+                    alert(data.message);
+                }
+            }
+        });
+    });
+
+    $('.submit-role-change').hide();
+    $('body').delegate('select.change_group_role', 'change', function(event) {
+        event.preventDefault();
+        var self = $(this),
+            instance_id = self.attr("data-instance-id"),
+            role_id = self.val(),
+            widget_url = self.attr('href') + '/' + instance_id + '/' + role_id + '.json',
+            after_item,
+            other_list_class = (role_id == 0) ? "non-group-instances" : "group-instances";
+        $.ajax({
+            url: widget_url,
+            dataType: 'json',
+            success: function (data) {
+                if (data.message == "success") {
+                    after_item = "";
+                    if (instance_id == 0) {
+                       after_item = $("body table." + other_list_class).children(":first");
+                    } else {
+                        $("body table." + other_list_class + " tr").each(function() {
+                            var td = $(this).children(":first");
+                            if (!td.hasClass("all_instances") && td.html().toLowerCase() > self.closest("tr").children(":first").html().toLowerCase() && after_item.length == 0) {
+                                after_item = $(this);
+                            }
+                    });
+                    }
+                    if (after_item.length > 0) {
+                        after_item.before(self.closest("tr"))
+                    } else {
+                        $('body table.' + other_list_class).append(self.closest("tr"));
+                    }
+                } else {
+                    alert(data.message);
+                }
+            }
+        });
+    });
 });

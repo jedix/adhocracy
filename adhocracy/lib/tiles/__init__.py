@@ -17,6 +17,7 @@ import selection_tiles as selection
 import tag_tiles as tag
 import text_tiles as text
 import user_tiles as user
+import group_tiles as group
 
 log = logging.getLogger(__name__)
 
@@ -30,6 +31,8 @@ def dispatch_row_with_comments(entity):
 def dispatch_row(entity):
     if isinstance(entity, model.User):
         return user.row(entity)
+    elif isinstance(entity, model.Group):
+        return group.row(entity)
     elif isinstance(entity, model.Instance):
         return instance.row(entity)
     elif isinstance(entity, model.Proposal):

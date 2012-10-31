@@ -1,0 +1,57 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html" />
+<%namespace name="group_tiles" file="/group/tiles.html" />
+<%def name="title()">${c.form_title}</%def>
+
+<%def name="breadcrumbs()">
+    ${h.tag.breadcrumbs(None)|n}
+</%def>
+
+<%block name="headline">
+<div class="top_actions title">
+    %if can.group.edit(c.group):
+    <a class="button title edit" href="${c.base_group_url}">${_("group list")}</a>
+    <a class="button title edit" href="${h.entity_url(c.group, member='edit')}">${_("edit group")}</a>
+    <a class="button title edit" href="${h.entity_url(c.group, member='roles')}">${_("assign roles")}</a>
+    <a class="button title edit" href="${h.entity_url(c.group, member='ask_delete')}">${_("delete group")}</a>
+    %endif
+</div>
+<h1 class="page_title">${_('Edit members of group')}: ${c.group.group_name}</h1>
+
+${self.form()}
+</%block>
+
+<%def name="form()">
+  <% h.need.spectrum %>
+      ${components.flashmessages()}
+
+
+    <div class="group-user-list">
+    <input placeholder="${_('Find member...')}" type="text" value="" id="member_search" data-ajax-url="${h.entity_url(c.group, member='userlist')}/members" data-link-href="${h.entity_url(c.group, member='members')}/" />
+    <ul class="group-members">
+    % for member in c.group_members:
+    <li><a action="remove" class="change_group_member" href="${h.entity_url(c.group, member='members')}/${member.id}/remove"><img src="${h.group.gravatar(member.email, 25)}">${member.name} (${member.email})</a></li>
+    % endfor 
+    </ul>
+    <p>${_('Click on a member to remove it from this group.')}</p>
+    </div>
+
+    <div id="undo-box" class="group-user-list" style="display:none">
+      <h3>${_('Recent changes')}</h3>
+      <ul class="recent_changes">
+      </ul>
+    </div>
+    <div class="group-user-list">
+    <label for="user_search">${_('Add members')}</label>
+    <input placeholder="${_('Find user...')}" type="text" value="" id="user_search" data-ajax-url="${h.entity_url(c.group, member='userlist')}/non-members" data-link-href="${h.entity_url(c.group, member='members')}/" />
+    <ul class="non-group-members">
+    % for member in c.non_group_members:
+    <li><a action="add" class="change_group_member" href="${h.entity_url(c.group, member='members')}/${member.id}/add"><img src="${h.group.gravatar(member.email, 25)}">${member.name} (${member.email})</a></li>
+    % endfor 
+    </ul>
+    <p>${_('Click on a user to add it from this group.')}</p>
+    </div>
+</%def>
+
+
+

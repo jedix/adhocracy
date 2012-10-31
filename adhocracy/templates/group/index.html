@@ -1,0 +1,30 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Groups")}</%def>
+
+<%def name="breadcrumbs()">
+${h.site.name()} &raquo; ${_("Groups")} 
+</%def>
+
+
+<%block name="headline">
+<div class="top_actions title">
+    %if can.group.create():
+    <a class="button title add" href="${c.base_group_url}/add">${_("new group")}</a>
+    %endif 
+</div> 
+<h1 class="page_title">${_("Groups")}</h1>
+</%block> 
+
+<%block name="main_content">
+<p>${_("Groups are containers for users which can be associated to one role per instance.")}</p>
+
+<div class="table" id="group_table">
+
+    ${c.group_pager.render_pager()}   
+
+
+</div>
+</%block>
+
+

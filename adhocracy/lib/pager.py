@@ -306,6 +306,10 @@ def pages(pages, detail=True, default_sort=None, **kwargs):
     return NamedPager('pages', pages, tiles.page.row, sorts=sorts,
                     default_sort=default_sort, **kwargs)
 
+def groups(groups):
+    sorts = {_("alphabetically"): sorting.group_name}
+    return NamedPager('groups', groups, tiles.group.row, sorts=sorts,
+                      initial_size=15, default_sort=sorting.group_name)
 
 def users(users, instance):
     activity_sorting = sorting.user_activity_factory(instance)
