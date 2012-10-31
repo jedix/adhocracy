@@ -9,8 +9,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Adhocracy\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2012-10-18 21:01+0200\n"
 "PO-Revision-Date: 2012-10-18 19:03+0000\n"
+=======
+"POT-Creation-Date: 2012-07-27 00:51+0200\n"
+"PO-Revision-Date: 2012-07-26 22:52+0000\n"
+>>>>>>> new-adhocracy/new-groups
 "Last-Translator: Nicolas Dietrich <nicodietrich@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +23,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 "Language: nl\n"
+<<<<<<< HEAD
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+=======
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+>>>>>>> new-adhocracy/new-groups
 
 msgid "Thank you for helping."
 msgstr "Dank u voor uw hulp."
@@ -100,10 +109,17 @@ msgid "No update required."
 msgstr "Geen update nodig."
 
 msgid "Delegations are enabled."
+<<<<<<< HEAD
 msgstr "Het geven van volmachten is toegestaan."
 
 msgid "Delegations are disabled."
 msgstr "Het geven van volmachten is niet toegestaan."
+=======
+msgstr "Volmachtigen is toegestaan."
+
+msgid "Delegations are disabled."
+msgstr "Volmachtigen is niet toegestaan."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "tutorial_instance_show_intro"
 msgstr "Welkom op de hoofdpagina van deze groep."
@@ -118,7 +134,11 @@ msgid "Contents"
 msgstr "Inhoud"
 
 msgid "Votings"
+<<<<<<< HEAD
 msgstr "Stemmen"
+=======
+msgstr "Stemmingen"
+>>>>>>> new-adhocracy/new-groups
 
 msgid "Badges"
 msgstr "Badges"
@@ -130,7 +150,11 @@ msgid "The logo has been deleted."
 msgstr "Het logo is verwijderd."
 
 msgid "No delay"
+<<<<<<< HEAD
 msgstr "Direct"
+=======
+msgstr "Geen vertraging"
+>>>>>>> new-adhocracy/new-groups
 
 msgid "1 Day"
 msgstr "1 Dag"
@@ -139,6 +163,7 @@ msgid "2 Days"
 msgstr "2 Dagen"
 
 msgid "One Week"
+<<<<<<< HEAD
 msgstr "1 Week"
 
 msgid "Two Weeks"
@@ -146,6 +171,15 @@ msgstr "2 Weken"
 
 msgid "Four Weeks"
 msgstr "4 Weken"
+=======
+msgstr "Eén Week"
+
+msgid "Two Weeks"
+msgstr "Twee Weken"
+
+msgid "Four Weeks"
+msgstr "Vier Weken"
+>>>>>>> new-adhocracy/new-groups
 
 msgid "A simple majority (&frac12; of vote)"
 msgstr "Een meerderheid (&frac12; van de stemmen)"
@@ -184,7 +218,11 @@ msgid "Your message has been sent. Thanks."
 msgstr "Uw  bericht is verzonden. Dank u wel."
 
 msgid "tutorial_milestones_tab"
+<<<<<<< HEAD
 msgstr "Op deze pagina vindt u een overzicht van de mijlpalen voor deze groep."
+=======
+msgstr "Op deze pagina vindt u een overzicht van de gestelde mijlpalen voor deze groep."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "tutorial_milestone_details_tab"
 msgstr "Het mijlpaal-detailoverzicht toont u meer informatie over de mijlpaal."
@@ -224,7 +262,11 @@ msgid "Justin Case has entered the room."
 msgstr "Justin Case komt de kamer binnen."
 
 msgid "tutorial_norms_overview_tab"
+<<<<<<< HEAD
 msgstr "Overzicht van alle reglementen van deze groep. Onder de titel van elk reglement staat het huidige aantal voorstellen en reacties."
+=======
+msgstr "Overzicht van alle reglementen van deze groep. In de lijst ziet u niet alleen alle reglementen, onder de titel van elk reglement staat ook het huidige daaraan toebehorende voorstellen en reacties."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "No proposal has been specified"
 msgstr "Er is geen voorstel gespecificeerd"
@@ -270,7 +312,11 @@ msgid "alphabetically"
 msgstr "alfabetisch"
 
 msgid "tutorial_norm_show_tab"
+<<<<<<< HEAD
 msgstr "Op deze pagina vindt u de nu geldige versie van het reglement en alle voorgestelde varianten op dit reglement."
+=======
+msgstr "Op deze pagina vindt u de nu geldige versie van het reglement en alle varianten die onder dit reglement zijn ondergebracht."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "No such text revision."
 msgstr "Er bestaat niet zo'n tekstcorrectie."
@@ -306,7 +352,11 @@ msgid "The proposal is not undergoing a poll."
 msgstr "Over het voorstel wordt momenteel niet gestemd."
 
 msgid "tutorial_proposal_overview_tab"
+<<<<<<< HEAD
 msgstr "Overzicht van alle huidige voorstellen. Hier kunt u zoeken naar voorstellen of zelf een voorstel indienen."
+=======
+msgstr "Overzicht van alle huidige voorstellen. Hier heeft u niet alleen de mogelijkheid om nieuwe voorstellen te schrijven..."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "Please select norm and propose a change to it."
 msgstr "Selecteer het reglement en stel een aanpasssing voor."
@@ -415,6 +465,13 @@ msgstr "Ongeldige gebruikersnaam of wachtwoord"
 msgid "tutorial_dashboard_title"
 msgstr "U bevindt zich op uw persoonlijk Dashboard. Hier vindt u een overzicht van alle voorstellen en reglementen in uw groepen en uw volglijst."
 
+<<<<<<< HEAD
+=======
+#, python-format
+msgid "Cannot make %(user)s a member of %(group)s"
+msgstr "Kan %(user)s geen lid maken van %(group)s"
+
+>>>>>>> new-adhocracy/new-groups
 msgid "The account has been suspended."
 msgstr "Het account is opgeschort."
 
@@ -424,9 +481,12 @@ msgstr "Het account is gereactiveerd."
 msgid "The account has been deleted."
 msgstr "Het account is verwijderd."
 
+<<<<<<< HEAD
 msgid "Invalid badge choice."
 msgstr ""
 
+=======
+>>>>>>> new-adhocracy/new-groups
 #, python-format
 msgid "%(user)s is using Adhocracy, a democratic decision-making tool."
 msgstr "%(user)s gebruiken Adhocracy, een democratische besluitvorming platform."
@@ -494,10 +554,13 @@ msgstr "Er bestaat geen voorstel met het ID '%s'"
 msgid "No group with ID '%s' exists"
 msgstr "Er bestaat geen groep met het ID '%s'"
 
+<<<<<<< HEAD
 #, python-format
 msgid "Group '%s' is no instance group"
 msgstr ""
 
+=======
+>>>>>>> new-adhocracy/new-groups
 msgid "At least on character is required"
 msgstr "Tenminste één karakter is vereist"
 
@@ -639,7 +702,11 @@ msgid ""
 "A liquid democracy platform for making decisions in distributed, open groups"
 " by cooperatively creating proposals and voting on them to establish their "
 "support."
+<<<<<<< HEAD
 msgstr "Een 'liquid democracy' besluitvormingsplatform waar in gedistribueerde open groepen gezamenlijk voorstellen gemaakt worden en geëvalueerd door middel van stemmingen."
+=======
+msgstr "Een 'liquid democracy' platform voor het maken van beslissingen in gedistribueerde, open groepen door gezamenlijk voorstellen te creëren en ze door middel van stemmingen aan te nemen."
+>>>>>>> new-adhocracy/new-groups
 
 msgid ""
 "adhocracy, direct democracy, liquid democracy, liqd, democracy, wiki, "
@@ -661,18 +728,30 @@ msgid ""
 "%(user)s has reported abuse on the page %(url)s:\r\n"
 "\r\n"
 "%(message)s"
+<<<<<<< HEAD
 msgstr "%(user)s heeft misbruik gemeld op pagina %(url)s:\n\n%(message)s"
 
 #, python-format
 msgid "Hi %s,"
 msgstr "Hallo %s,"
+=======
+msgstr "%(user)s hebben misbruik gemeld op pagina %(url)s:⏎ \n⏎\n%(message)s"
+
+#, python-format
+msgid "Hi %s,"
+msgstr "Hoi %s,"
+>>>>>>> new-adhocracy/new-groups
 
 #, python-format
 msgid ""
 "Cheers,\r\n"
 "\r\n"
 "    the %s Team\r\n"
+<<<<<<< HEAD
 msgstr "Hartelijke groet,\n\n    Het %s Team\n"
+=======
+msgstr "Bedankt, \\n\n\\n\n\\t het %s Team\\n"
+>>>>>>> new-adhocracy/new-groups
 
 #, python-format
 msgid "%s <%s>"
@@ -693,7 +772,11 @@ msgid "newest comment"
 msgstr "Laatste reactie"
 
 msgid "most support"
+<<<<<<< HEAD
 msgstr "meeste steun"
+=======
+msgstr ""
+>>>>>>> new-adhocracy/new-groups
 
 msgid "mixed"
 msgstr "gemengd"
@@ -702,7 +785,11 @@ msgid "by date"
 msgstr "op datum"
 
 msgid "most proposals"
+<<<<<<< HEAD
 msgstr "meeste voorstellen"
+=======
+msgstr ""
+>>>>>>> new-adhocracy/new-groups
 
 msgid "hierarchical"
 msgstr "hiërarchisch"
@@ -710,21 +797,31 @@ msgstr "hiërarchisch"
 msgid "Badge"
 msgstr "Badge"
 
+<<<<<<< HEAD
 msgid "Instance"
 msgstr ""
 
+=======
+>>>>>>> new-adhocracy/new-groups
 msgid "Categories"
 msgstr "Categorieën"
 
 msgid "Created by"
+<<<<<<< HEAD
 msgstr "Aangemaakt door"
+=======
+msgstr "Gemaakt door"
+>>>>>>> new-adhocracy/new-groups
 
 msgid "Tags"
 msgstr "Tags"
 
+<<<<<<< HEAD
 msgid "Milestones"
 msgstr "Mijlpalen"
 
+=======
+>>>>>>> new-adhocracy/new-groups
 msgid "Oldest"
 msgstr "Oudste"
 
@@ -741,7 +838,11 @@ msgid "Alphabetically"
 msgstr "Alfabetisch"
 
 msgid "Most Support"
+<<<<<<< HEAD
 msgstr "Meeste Steun"
+=======
+msgstr "Meeste Ondersteuning"
+>>>>>>> new-adhocracy/new-groups
 
 msgid "Yays - nays"
 msgstr "Voors - tegens"
@@ -762,10 +863,17 @@ msgid "Mixed"
 msgstr "Gemengd"
 
 msgid "Age and Support"
+<<<<<<< HEAD
 msgstr "Leeftijd en Steun"
 
 msgid "Support"
 msgstr "Steun"
+=======
+msgstr "leeftijd en Ondersteuning"
+
+msgid "Support"
+msgstr "Ondersteuning"
+>>>>>>> new-adhocracy/new-groups
 
 msgid "Date"
 msgstr "Datum"
@@ -799,7 +907,11 @@ msgid "is for"
 msgstr "is voor"
 
 msgid "abstains on"
+<<<<<<< HEAD
 msgstr "onthoudt zich van stemming op"
+=======
+msgstr "onthoudt zich van"
+>>>>>>> new-adhocracy/new-groups
 
 msgid "is against"
 msgstr "is tegen"
@@ -819,7 +931,11 @@ msgid "%(user)s: profile updated"
 msgstr "%(user)s: profiel bijgewerkt"
 
 msgid "edited their profile"
+<<<<<<< HEAD
 msgstr "heeft zijn/haar profiel aangepast"
+=======
+msgstr "heeft hun profiel aangepast"
+>>>>>>> new-adhocracy/new-groups
 
 #, python-format
 msgid "%(user)s: profile was edited by %(admin)s"
@@ -831,11 +947,19 @@ msgstr "profiel is bijgewerkt door %(admin)s"
 
 #, python-format
 msgid "New instance: %(instance)s"
+<<<<<<< HEAD
 msgstr "Nieuwe Groep: %(instance)s"
 
 #, python-format
 msgid "founded the %(instance)s instance"
 msgstr "heeft de groep %(instance)s opgericht"
+=======
+msgstr "Nieuw Groep: %(instance)s"
+
+#, python-format
+msgid "founded the %(instance)s instance"
+msgstr "heeft de %(instance)s gesticht"
+>>>>>>> new-adhocracy/new-groups
 
 #, python-format
 msgid "%(instance)s: instance was updated"
@@ -843,7 +967,11 @@ msgstr "%(instance)s: groep is bijgewerkt."
 
 #, python-format
 msgid "updated the %(instance)s instance"
+<<<<<<< HEAD
 msgstr "heeft de %(instance)s groep bijgewerkt"
+=======
+msgstr "de %(instance)s groep is bijgewerkt"
+>>>>>>> new-adhocracy/new-groups
 
 #, python-format
 msgid "Deleted Adhocracy: %(instance)s"
@@ -859,7 +987,11 @@ msgstr "%(instance)s: %(user)s is lid geworden"
 
 #, python-format
 msgid "joined %(instance)s"
+<<<<<<< HEAD
 msgstr "lid geworden op %(instance)s"
+=======
+msgstr "lid geworden van %(instance)s"
+>>>>>>> new-adhocracy/new-groups
 
 #, python-format
 msgid "%(instance)s: %(user)s left"
@@ -883,7 +1015,11 @@ msgstr "%(instance)s: %(user)s is nu een %(group)s"
 
 #, python-format
 msgid "now is a %(group)s within %(instance)s"
+<<<<<<< HEAD
 msgstr "is nu een %(group)s in %(instance)s"
+=======
+msgstr "is nu een %(group)s binnen %(instance)s"
+>>>>>>> new-adhocracy/new-groups
 
 #, python-format
 msgid "New proposal: %(proposal)s"
@@ -891,7 +1027,11 @@ msgstr "Nieuw voorstel: %(proposal)s"
 
 #, python-format
 msgid "created %(proposal)s"
+<<<<<<< HEAD
 msgstr "heeft %(proposal)s aangemaakt"
+=======
+msgstr "aangemaakte %(proposal)s"
+>>>>>>> new-adhocracy/new-groups
 
 #, python-format
 msgid "Edit proposal: %(proposal)s"
@@ -931,7 +1071,11 @@ msgstr "Nieuw pagina: %(page)s"
 
 #, python-format
 msgid "created %(page)s"
+<<<<<<< HEAD
 msgstr "heeft %(page)s aangemaakt"
+=======
+msgstr "aangemaakte %(page)s"
+>>>>>>> new-adhocracy/new-groups
 
 #, python-format
 msgid "Edit page: %(page)s"
@@ -939,7 +1083,11 @@ msgstr "Bewerk pagina: %(page)s"
 
 #, python-format
 msgid "edited %(page)s"
+<<<<<<< HEAD
 msgstr "heeft %(page)s bewerkt"
+=======
+msgstr "bewerkte %(page)s"
+>>>>>>> new-adhocracy/new-groups
 
 #, python-format
 msgid "Deleted page: %(page)s"
@@ -1054,11 +1202,21 @@ msgid ""
 "\r\n"
 "\r\n"
 "More info: %(url)s"
+<<<<<<< HEAD
 msgstr " \n\nMeer informatie: %(url)s"
+=======
+msgstr "⏎\n⏎\nMeer informatie: %(url)s"
+>>>>>>> new-adhocracy/new-groups
 
 msgid "This proposal is currently being voted on and cannot be modified."
 msgstr "Over dit voorstel wordt momenteel gestemd en kan daarom niet worden aangepast."
 
+<<<<<<< HEAD
+=======
+msgid "Milestones"
+msgstr "Mijlpalen"
+
+>>>>>>> new-adhocracy/new-groups
 msgid "(Unknown)"
 msgstr "(Onbekend)"
 
@@ -1245,7 +1403,11 @@ msgid "%(start)s-%(end)s out of %(total)s"
 msgstr "%(start)s-%(end)s van de %(total)s"
 
 msgid "No entries."
+<<<<<<< HEAD
 msgstr "Geen items."
+=======
+msgstr "Geen inzendingen."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "previous"
 msgstr "vorige"
@@ -1254,10 +1416,14 @@ msgid "next"
 msgstr "volgende"
 
 msgid "entries"
+<<<<<<< HEAD
 msgstr "items"
 
 msgid "Filter list"
 msgstr ""
+=======
+msgstr "inzendingen"
+>>>>>>> new-adhocracy/new-groups
 
 msgid "Remove all"
 msgstr "Verwijder alles"
@@ -1457,6 +1623,7 @@ msgstr "Groep"
 msgid "No Group"
 msgstr "Geen groep"
 
+<<<<<<< HEAD
 msgid ""
 "Automatically assign all users with this badge to the selected group for all"
 " instances in the adhocracy site."
@@ -1464,12 +1631,23 @@ msgstr ""
 
 msgid "Automatically assign all users with this badge to the selected group."
 msgstr ""
+=======
+msgid "Assign the user to this group for all instances in the adhocracy site."
+msgstr "Voeg de gebruiker toe aan deze gebruikersrol voor alle groepen op de Adhocracy website."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "Display group in instances"
 msgstr "Geef de gebruikersrollen in de groepen weer"
 
+<<<<<<< HEAD
 msgid "Display this badge instead of the normal user group."
 msgstr ""
+=======
+msgid ""
+"Display this group in instances instead of the normal group the user is in "
+"there."
+msgstr "Geef dit type gebruikers van de groepen weer in plaats van de normale gebruikers."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "Global"
 msgstr "Globaal"
@@ -1556,7 +1734,11 @@ msgstr "Nieuwe reactie"
 
 #, python-format
 msgid "created %s"
+<<<<<<< HEAD
 msgstr "aangemaakt op %s"
+=======
+msgstr "aangemaakt %s"
+>>>>>>> new-adhocracy/new-groups
 
 msgid "revert here"
 msgstr "herstel deze"
@@ -1675,10 +1857,17 @@ msgid ""
 msgstr "De gemachtigden van de gebruiker hebben gestemd, maar er was onder hen geen consensus. De beslissing is uitgesteld."
 
 msgid "The decision was made without delegations."
+<<<<<<< HEAD
 msgstr "Er zijn geen volmachtigingen gebruikt in deze stemming."
 
 msgid "The decision was determined as a result of the following delegations:"
 msgstr "De volgende volmachtigingen zijn gebruikt in deze stemming:"
+=======
+msgstr "De beslissing zonder gevolmachtigde stemmen tot stand gekomen."
+
+msgid "The decision was determined as a result of the following delegations:"
+msgstr "The beslissing is tot stand gekomen op basis van de volgende gevolmachtigde stemmen:"
+>>>>>>> new-adhocracy/new-groups
 
 msgid "on"
 msgstr "op"
@@ -1696,7 +1885,11 @@ msgstr "Volmachten"
 msgid ""
 "These people might be a good match for your delegation. Either select one of"
 " the listed delegates, or enter another user name."
+<<<<<<< HEAD
 msgstr "Deze deelnemers zijn mogelijk geschikt om uw volmacht aan te geven. Kies één van deze deelnemers of voer een nieuwe gebruikersnaam in."
+=======
+msgstr "Deze deelnemers zijn mogelijk geschikt om te volmachtigen. Kies één van deze deelnemers of voer een nieuwe gebruikersnaam in."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "Start typing, you will receive suggestions to find the user."
 msgstr "Begin met typen, u ontvangt dan suggesties om de gebruiker te vinden."
@@ -1743,7 +1936,11 @@ msgstr "staat van dienst"
 
 #, python-format
 msgid "created <b>%s</b>"
+<<<<<<< HEAD
 msgstr "aangemaakt op <b>%s</b>"
+=======
+msgstr "aangemaakt <b>%s</b>"
+>>>>>>> new-adhocracy/new-groups
 
 msgid "Delegate voting"
 msgstr "Gemachtigde stemming"
@@ -1755,7 +1952,11 @@ msgid "You have delegated voting to:"
 msgstr "U heeft stemmen gevolmachtigd aan:"
 
 msgid "Delegate your say in this debate to another participant."
+<<<<<<< HEAD
 msgstr "Geef volmachtiging van uw stem in dit debat aan een andere deelnemer."
+=======
+msgstr "Volmachtig uw stem in dit debat aan een andere deelnemer."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "delegate"
 msgstr "gemachtigde"
@@ -1838,7 +2039,11 @@ msgid "new instance"
 msgstr "nieuwe groep"
 
 msgid "Instances are little democracies that are ran by their community."
+<<<<<<< HEAD
 msgstr "Overzicht van alle groepen. Wordt lid van een groep om actief deel te nemen aan de discussie."
+=======
+msgstr "Groepen zijn kleine democratieën die worden gerund door hun deelnemers."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "New Instance"
 msgstr "Nieuwe Groep"
@@ -1855,12 +2060,20 @@ msgstr "Groep URL"
 msgid ""
 "The address may only contain alpha-numeric characters. Please note that this"
 " key cannot be changed after the instance has been created."
+<<<<<<< HEAD
 msgstr "Het adres mag enkel bestaan uit alfanumerieke karakters. Houd er rekening mee dat het adres niet meer gewijzigd kan worden zodra de groep is aangemaakt."
+=======
+msgstr "Het adres mag enkel bestaan uit alfanumerieke karakters. Houd er rekening mee dat de ID niet kan worden gewijzigd nadat de groep gecreëerd is."
+>>>>>>> new-adhocracy/new-groups
 
 msgid ""
 "Describe what the goals of this instance are and who constitutes its "
 "community. (Both Markdown and HTML are allowed here.)"
+<<<<<<< HEAD
 msgstr "Beschrijf de doelstellingen van deze groep en wie de deelnemers zijn (Zowel Markdown als HTML zijn hier toegestaan)."
+=======
+msgstr "Beschrijf de doelstellingen van deze groep en wie de deelnemers zijn (Zowel Markdown als HTML zijn hier toegestaan.)"
+>>>>>>> new-adhocracy/new-groups
 
 #, python-format
 msgid "Manage: %s"
@@ -1891,10 +2104,17 @@ msgid "Use Norms"
 msgstr "Gebruik Reglementen"
 
 msgid "Allow users to propose norms"
+<<<<<<< HEAD
 msgstr "Sta gebruikers toe om nieuwe reglementen te maken"
 
 msgid "Require to propose a variant"
 msgstr "Elk voorstel moet minstens één veranderingen in het reglement aanbrengen"
+=======
+msgstr "Sta gebruikers toe om reglementen voor te stellen"
+
+msgid "Require to propose a variant"
+msgstr "Vereis het voorstellen van een variant"
+>>>>>>> new-adhocracy/new-groups
 
 msgid "Use milestones"
 msgstr "Gebruik mijlpalen"
@@ -1936,10 +2156,17 @@ msgid "Majority"
 msgstr "Meerderheid"
 
 msgid "Delay"
+<<<<<<< HEAD
 msgstr "Periode dat een meerderheid behouden moet worden voor aanname"
 
 msgid "Enable vote delegation"
 msgstr "Sta het geven van volmachten van stemmen toe"
+=======
+msgstr "Vertraging"
+
+msgid "Enable vote delegation"
+msgstr "Sta het volmachtigen van stemmen toe"
+>>>>>>> new-adhocracy/new-groups
 
 msgid "Home"
 msgstr "Home"
@@ -1973,11 +2200,19 @@ msgid "by %s on %s"
 msgstr "door %s op %s"
 
 msgid "By the numbers"
+<<<<<<< HEAD
 msgstr "Cijfers"
 
 #, python-format
 msgid "<b>%s</b> community members"
 msgstr "<b>%s</b> deelnemers"
+=======
+msgstr "Op aantal"
+
+#, python-format
+msgid "<b>%s</b> community members"
+msgstr "<b>%s</b> leden van de gemeenschap"
+>>>>>>> new-adhocracy/new-groups
 
 msgid "tutorial_instance_proposals_table"
 msgstr "Hier vindt u een overzicht van de nieuwste voorstellen."
@@ -2157,7 +2392,11 @@ msgstr "Weet u zeker dat u variant %s wilt verwijderen?"
 msgid ""
 "WARNING: This will remove all revisions of the variant from any proposals "
 "that might support it."
+<<<<<<< HEAD
 msgstr "WAARSCHUWING: Hierdoor zullen alle revisies van deze variant verwijderd worden van all voorstellen die het steunen."
+=======
+msgstr "WAARSCHUWING: Hierdoor zullen alle revisies van deze variant verwijderd worden van elke voorstel dat daardoor wordt ondersteund."
+>>>>>>> new-adhocracy/new-groups
 
 #, python-format
 msgid "Variant: %s"
@@ -2262,10 +2501,17 @@ msgid "Proposal"
 msgstr "Voorstel"
 
 msgid "tutorial_norm_show_vote"
+<<<<<<< HEAD
 msgstr "Bekijk het originele reglement en de voorgestelde varianten. U kunt voor een variant stemmen door op het pijltje omhoog te klikken of tegen door op het pijltje omlaag te klikken. U kunt op meerdere varianten uw stem uitbrengen."
 
 msgid "tutorial_norm_show_diff"
 msgstr "Door op 'An' te klikken kunt u precies zien welke veranderingen er gemaakt zijn ten opzichte van het originele reglement."
+=======
+msgstr "Bekijk het originele reglement en de voorgestelde varianten en breng uw stem uit voor een document door op het pijltje omhoog te klikken of tegen door op het pijltje omlaag te klikken. U kunt uw stem uitbrengen op meerdere documenten."
+
+msgid "tutorial_norm_show_diff"
+msgstr "Hiermee kunt u de veranderingen ten opzichte van het originele reglement inzien."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "tutorial_norm_show_new"
 msgstr "U kunt ook totaal nieuw reglement indienen."
@@ -2435,7 +2681,11 @@ msgid "A brief description of <b>the goals</b> of your proposal."
 msgstr "Een korte beschrijving van <b>de doelstellingen</b> van uw voorstel."
 
 msgid "The proposal would..."
+<<<<<<< HEAD
 msgstr "Het voorstel zal..."
+=======
+msgstr "Het voorstel zou..."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "Proposal Category"
 msgstr "Voorstel Categorie"
@@ -2447,7 +2697,11 @@ msgid "Collaboration and Notification"
 msgstr "Samenwerking en Meldingen"
 
 msgid "Allow others to edit this proposal."
+<<<<<<< HEAD
 msgstr "Sta toe dat anderen dit voorstel bewerken."
+=======
+msgstr "Sta toe dat andere dit voorstel bewerken."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "Find proposals"
 msgstr "Vind voorstellen"
@@ -2456,7 +2710,11 @@ msgid "Go"
 msgstr "Ga"
 
 msgid "tutorial_proposal_overview_table"
+<<<<<<< HEAD
 msgstr "Deze lijst biedt een overzicht van alle tot nu toe ingediende voorstellen. De lijst kan op verschillende manieren gesorteerd worden."
+=======
+msgstr "Deze lijst biedt een overzicht van alle tot nu toe ingediende voorstellen. De lijst op meerdere criteria gesorteerd worden."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "tutorial_proposal_overview_facets"
 msgstr "U kunt de voorstellen ook filteren op gebruiker, categorie, tag of de huidige staat van het voorstel."
@@ -2510,7 +2768,11 @@ msgid "Proposed Implementations"
 msgstr "Voorgestelde Implementaties"
 
 msgid "Propose to change a norm"
+<<<<<<< HEAD
 msgstr "Pas een nieuwe implementatie van dit voorstel toe op een reglement"
+=======
+msgstr "Stel voor om een reglement aan te passen"
+>>>>>>> new-adhocracy/new-groups
 
 msgid "Login to propose to change a norm"
 msgstr "Log in om voor te stellen om een reglement aan te passen"
@@ -2519,19 +2781,31 @@ msgid "Join instance to propose to change a norm"
 msgstr "Word lid van deze groep om een aanpassing aan een reglement voor te stellen"
 
 msgid "tutorial_proposal_show_vote"
+<<<<<<< HEAD
 msgstr "U kunt voor of tegen het voorstel stemmen, of, als de groep dit toestaat, een volmachtiging geven zodat iemand anders voor u kan stemmen."
+=======
+msgstr "Een kunt een voorstel steunen of afvallen."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "tutorial_proposal_show_follow"
 msgstr "Ook kunt u een voorstel in uw volglijst opnemen."
 
 msgid "tutorial_proposal_show_information"
+<<<<<<< HEAD
 msgstr "Hier vindt u meer informatie over het voorstel."
+=======
+msgstr "U kunt meer informatie over het voorstel bekijken..."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "tutorial_proposal_show_tags"
 msgstr "..tags voor het voorstel toevoegen..."
 
 msgid "tutorial_proposal_show_share"
+<<<<<<< HEAD
 msgstr "Deel het voorstel met anderen via Facebook, Twitter of Google+."
+=======
+msgstr "...en het voorstel delen met anderen via Facebook, Google+ of Twitter."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "tutorial_proposal_show_vote_comment"
 msgstr "Reacties kunt u niet alleen bewerken..."
@@ -2543,7 +2817,11 @@ msgid "tutorial_proposal_show_answer"
 msgstr "...of zelf een antwoord op de reactie geven..."
 
 msgid "tutorial_proposal_show_new_discussion"
+<<<<<<< HEAD
 msgstr "Geef uw reactie op het voorstel of reageer op andere reacties."
+=======
+msgstr "...of een eigen reactie toevoegen."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "tutorial_proposal_show_propose_variant"
 msgstr "U kunt actief deelnemen door zelf een variant op een reglement toe te voegen."
@@ -2582,7 +2860,11 @@ msgstr "Informatie"
 
 #, python-format
 msgid "The proposal was created by %s on %s"
+<<<<<<< HEAD
 msgstr "Dit voorstel is aangemaakt door %s op %s"
+=======
+msgstr "Dit voorstel is gemaakt door %s op %s"
+>>>>>>> new-adhocracy/new-groups
 
 msgid ""
 "This is a <b>joint proposal</b> that can be improved by anyone. Edit it to "
@@ -2731,7 +3013,11 @@ msgid "add tags..."
 msgstr "voeg tags toe..."
 
 msgid "Multiple tags can be separated by commas or spaces."
+<<<<<<< HEAD
 msgstr "Meerdere tags kunnen door komma's of spaties gescheiden worden."
+=======
+msgstr "Meerdere tags kunnen door komma's en spaties gescheiden worden."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "Add tags"
 msgstr "Voeg tags toe"
@@ -2833,7 +3119,11 @@ msgstr "Dit is uw Dashboard. Hier vindt u een lijst met groepen waar u lid van b
 
 #, python-format
 msgid "You can also return to the <a href=\"%s\">Page you came from</a>."
+<<<<<<< HEAD
 msgstr "U kunt ook terugkeren naar de <a href=\"%s\">pagina waar u vandaan kwam</a>."
+=======
+msgstr "U kunt ook terugkeren naar de <a href=\"%s\">Pagina waar u vandaan kwam</a>."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "Proposals in your instances"
 msgstr "Voorstellen in uw groepen"
@@ -2854,7 +3144,11 @@ msgid "tutorial_dashboard_username"
 msgstr "U kunt op elk moment terugkeren naar uw Dashboard door bovenaan de pagina op uw naam te klikken."
 
 msgid "tutorial_dashboard_proposals"
+<<<<<<< HEAD
 msgstr "In uw Dashboard ziet u onder andere een lijst van alle reglementen die in uw groepen gelden."
+=======
+msgstr "In uw Dashboard ziet u onder andere een lijst van alle voorstellen die in uw groepen zijn ingediend."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "tutorial_dashboard_show_all"
 msgstr "Klik hier om de volledige lijst van alle voorstellen te tonen."
@@ -2903,7 +3197,11 @@ msgid "Password"
 msgstr "Wachtwoord"
 
 msgid "Select a new password or leave the fields blank to keep your old one."
+<<<<<<< HEAD
 msgstr "Kies een nieuw wachtwoord of laat alle velden leeg om uw huidige wachtwoord te behouden."
+=======
+msgstr "Kies een nieuwe wachtwoord of laat alle velden leeg om uw oude wachtwoord te houden."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "Password:"
 msgstr "Wachtwoord:"
@@ -2915,7 +3213,11 @@ msgid "Notifications"
 msgstr "Meldingen"
 
 msgid "Select how you would like to be notified of events."
+<<<<<<< HEAD
 msgstr "Kies via welk e-mail adres en hoe vaak u op de hoogte wilt worden gehouden."
+=======
+msgstr "Kies hoe u op de hoogte wilt worden gehouden."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "Help."
 msgstr "Hulp."
@@ -2939,7 +3241,11 @@ msgid "OpenID"
 msgstr "OpenID"
 
 msgid "OpenID allows you to use a single login on many web sites."
+<<<<<<< HEAD
 msgstr "Met OpenID kunt u inloggen op vele websites."
+=======
+msgstr "Met één OpenID kunt u inloggen op vele websites."
+>>>>>>> new-adhocracy/new-groups
 
 msgid "There are no associated OpenIDs."
 msgstr "Er zijn geen gekoppelde OpenIDs."
@@ -3050,7 +3356,11 @@ msgstr "U heeft een e-mail ontvangen met een link. Open die link om uw wachtwoor
 
 #, python-format
 msgid "Signed up %s"
+<<<<<<< HEAD
 msgstr "Registratiedatum %s"
+=======
+msgstr "Aangemeld voor %s"
+>>>>>>> new-adhocracy/new-groups
 
 #, python-format
 msgid "%s does not yet have a bio."
@@ -3058,11 +3368,19 @@ msgstr "%s heeft geen biografie"
 
 #, python-format
 msgid "joined %s"
+<<<<<<< HEAD
 msgstr "lid geworden op %s"
 
 #, python-format
 msgid "signed up %s"
 msgstr "registratiedatum %s"
+=======
+msgstr "lid geworden van %s"
+
+#, python-format
+msgid "signed up %s"
+msgstr "aangemeld voor %s"
+>>>>>>> new-adhocracy/new-groups
 
 msgid "send a message"
 msgstr "stuur een bericht"

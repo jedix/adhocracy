@@ -33,6 +33,7 @@ from adhocracy.lib.helpers import comment_helper as comment
 from adhocracy.lib.helpers import selection_helper as selection
 from adhocracy.lib.helpers import delegation_helper as delegation
 from adhocracy.lib.helpers import instance_helper as instance
+from adhocracy.lib.helpers import group_helper as group
 from adhocracy.lib.helpers import abuse_helper as abuse, tutorial
 from adhocracy.lib.helpers import milestone_helper as milestone
 from adhocracy.lib.helpers import recaptcha_helper as recaptcha
@@ -217,6 +218,8 @@ def entity_url(entity, **kwargs):
         return milestone.url(entity, **kwargs)
     elif isinstance(entity, model.Tag):
         return tag.url(entity, **kwargs)
+    elif isinstance(entity, model.Group):
+        return group.url(entity, **kwargs)
     raise ValueError("No URL maker for: %s" % repr(entity))
 
 

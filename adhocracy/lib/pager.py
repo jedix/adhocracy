@@ -306,6 +306,10 @@ def pages(pages, detail=True, default_sort=None, **kwargs):
     return NamedPager('pages', pages, tiles.page.row, sorts=sorts,
                     default_sort=default_sort, **kwargs)
 
+def groups(groups):
+    sorts = {_("alphabetically"): sorting.group_name}
+    return NamedPager('groups', groups, tiles.group.row, sorts=sorts,
+                      initial_size=15, default_sort=sorting.group_name)
 
 def users(users, instance):
     activity_sorting = sorting.user_activity_factory(instance)
@@ -1073,7 +1077,7 @@ class NamedSort(object):
                  template='/pager.html', mako_def="sort_dropdown"):
         '''
         *sortsoptions* (iterable)
-            An list of (<groupname>, <optionslist>) tuples where
+            An list of (<rolename>, <optionslist>) tuples where
             <optionslist> itself is a list of :class:`SortOption` s.
         *default* (:class:`SortOption`)
             A :class:`SortOption` object for the default sort.
@@ -1084,10 +1088,10 @@ class NamedSort(object):
         '''
         self.by_value = {}
         self.by_old = {}
-        self.by_group = {}
-        self.groups = []
-        for (group_label, optionslist) in sortoptions:
-            self.add_group(group_label, optionslist)
+        self.by_role = {}
+        self.roles = []
+        for (role_label, optionslist) in sortoptions:
+            self.add_role(role_label, optionslist)
 
         # set the default
         if default is not None:
@@ -1102,7 +1106,7 @@ class NamedSort(object):
         if self._default in self.by_value:
             return self.by_value[self._default]
         else:
-            return self.by_group[self.groups[0]][0]
+            return self.by_role[self.roles[0]][0]
 
     def current_value(self):
         return request.params.get(self.pager.sort_param)
@@ -1122,10 +1126,10 @@ class NamedSort(object):
             except KeyError:
                 redirect(self.pager.build_url(sort=self.default, code=301))
 
-    def add_group(self, label, options):
-        assert (label not in self.groups), 'We do not support changing groups'
-        self.groups.append(label)
-        self.by_group[label] = options
+    def add_role(self, label, options):
+        assert (label not in self.roles), 'We do not support changing roles'
+        self.roles.append(label)
+        self.by_role[label] = options
         for option in options:
             assert isinstance(option, SortOption)
             assert option.value not in self.by_value
@@ -1141,7 +1145,7 @@ class NamedSort(object):
         return render_def(self.template, self.mako_def, sorts=self)
 
     def grouped_options(self):
-        return [(group, self.by_group[group]) for group in self.groups]
+        return [(role, self.by_role[role]) for role in self.roles]
 
     def __len__(self):
         return len(self.by_value.keys())

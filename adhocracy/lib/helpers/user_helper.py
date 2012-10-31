@@ -59,7 +59,7 @@ def url(user, instance=None, **kwargs):
 
     # Allow only some user urls to be in an instance
     member = kwargs.get('member', None)
-    if member in ['votes', 'delegations', 'proposals', 'groupmod',
+    if member in ['votes', 'delegations', 'proposals', 'rolemod',
                   'ban', 'unban', 'filter']:
         if instance is None:
             instance = c.instance

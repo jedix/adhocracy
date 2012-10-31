@@ -9,24 +9,26 @@ ADMIN = u'admin'
 ADMIN_PASSWORD = u'password'
 
 
-def mk_group(name, code):
-    group = model.Group.by_code(unicode(code))
-    if not group:
-        log.debug("Creating group: %s" % name)
-        group = model.Group(unicode(name), unicode(code))
-        model.meta.Session.add(group)
+
+def mk_role(name, code):
+    role = model.Role.by_code(unicode(code))
+    if not role:
+        log.debug("Creating role: %s" % name)
+        role = model.Role(unicode(name), unicode(code))
+        model.meta.Session.add(role)
     else:
-        group.group_name = unicode(name)
-    return group
+        role.role_name = unicode(name)
+    return role
 
 
-def mk_perm(name, *groups):
+
+def mk_perm(name, *roles):
     perm = model.Permission.find(name)
     if perm is None:
         log.debug("Creating permission: %s" % name)
         perm = model.Permission(name)
         model.meta.Session.add(perm)
-    perm.groups = list(groups)
+    perm.roles = list(roles)
     return perm
 
 
@@ -35,17 +37,17 @@ def setup_entities(initial_setup):
     model.meta.Session.commit()
 
     # administrate installation wide
-    admins = mk_group("Administrator", model.Group.CODE_ADMIN)
-    organization = mk_group("Organization", model.Group.CODE_ORGANIZATION)
+    admins = mk_role("Administrator", model.Role.CODE_ADMIN)
+    organization = mk_role("Organization", model.Role.CODE_ORGANIZATION)
     # administrate instance
-    supervisor = mk_group("Supervisor", model.Group.CODE_SUPERVISOR)
-    moderator = mk_group("Moderator", model.Group.CODE_MODERATOR)
-    voter = mk_group("Voter", model.Group.CODE_VOTER)
-    observer = mk_group("Observer", model.Group.CODE_OBSERVER)
-    advisor = mk_group("Advisor", model.Group.CODE_ADVISOR)
-    default = mk_group("Default", model.Group.CODE_DEFAULT)
-    anonymous = mk_group("Anonymous", model.Group.CODE_ANONYMOUS)
-    addressee = mk_group("Addressee", model.Group.CODE_ADDRESSEE)
+    supervisor = mk_role("Supervisor", model.Role.CODE_SUPERVISOR)
+    moderator = mk_role("Moderator", model.Role.CODE_MODERATOR)
+    voter = mk_role("Voter", model.Role.CODE_VOTER)
+    observer = mk_role("Observer", model.Role.CODE_OBSERVER)
+    advisor = mk_role("Advisor", model.Role.CODE_ADVISOR)
+    default = mk_role("Default", model.Role.CODE_DEFAULT)
+    anonymous = mk_role("Anonymous", model.Role.CODE_ANONYMOUS)
+    addressee = mk_role("Addressee", model.Role.CODE_ADDRESSEE)
 
     model.meta.Session.commit()
 
@@ -64,6 +66,8 @@ def setup_entities(initial_setup):
         mk_perm("global.admin", admins)
         mk_perm("global.member", admins)
         mk_perm("global.organization", organization)
+        mk_perm("group.manage", admins)
+        mk_perm("group.show", anonymous)
         mk_perm("instance.admin", supervisor)
         mk_perm("instance.create", admins)
         mk_perm("instance.delete", admins)

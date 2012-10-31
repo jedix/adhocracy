@@ -1,0 +1,29 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Delete: %s") % c.proposal.title}</%def>
+
+<%def name="breadcrumbs()">
+${h.site.name()} &raquo; ${_("Groups")} &raquo; ${c.group.group_name} &raquo; ${_("Delete")}
+</%def>
+
+
+<%block name="main_content">
+
+<div class="mainbar">
+    <h2>
+        ${c.group.group_name}
+    </h2>
+    <form name="ask_delete" class="inplace" method="POST" 
+        action="${h.entity_url(c.group)}">
+        ${h.field_token()|n}
+        <input type="hidden" name="_method" value="DELETE" />
+        <div class="warning_box">
+            ${_("Are you sure you want to delete this group?")|n}
+        </div>
+        <center>
+            <input type="submit" class="delete" value="${_('Confirm')}" />
+        </center>
+    </form>
+</div>
+
+</%block>

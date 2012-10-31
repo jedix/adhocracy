@@ -1,0 +1,68 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html" />
+<%namespace name="group_tiles" file="/group/tiles.html" />
+<%def name="title()">${c.form_title}</%def>
+
+<%def name="breadcrumbs()">
+    ${h.tag.breadcrumbs(None)|n}
+</%def>
+
+<%block name="headline">
+<div class="top_actions title">
+    %if can.group.edit(c.group):
+    <a class="button title edit" href="${c.base_group_url}">${_("group list")}</a>
+    <a class="button title edit" href="${h.entity_url(c.group, member='edit')}">${_("edit group")}</a>
+    <a class="button title edit" href="${h.entity_url(c.group, member='members')}">${_("manage members")}</a>
+    <a class="button title edit" href="${h.entity_url(c.group, member='ask_delete')}">${_("delete group")}</a>
+    %endif
+</div>
+<h1 class="page_title">${_('Assign roles to group')}: ${c.group.group_name}</h1>
+</%block>
+
+
+<%block name="main_content">
+${self.form()}
+
+</%block>
+<%def name="form()">
+  <% h.need.spectrum %>
+
+      ${components.flashmessages()}
+
+    <p>${_("For each instance one role can be assigned to a group.")}</p>
+    ${h.field_token()|n}
+
+    <h3>${_('Current roles')}</h3>
+    <table class="group-instances">
+    % for group_role in c.group.group_roles:
+    % if group_role.instance is None:
+    <tr><td class="all_instances">${_('all instances')}</td><td>${self.roles(0, group_role.role.id)}</td></tr> 
+    % else:
+    <tr><td>${group_role.instance.label}</td><td>${self.roles(group_role.instance.id, group_role.role.id)}</td></tr> 
+    % endif
+    % endfor 
+    </table>
+
+    <h3>${_('Add roles')}</h3>
+    <table class="non-group-instances">
+    % for instance in c.instances:
+    <tr><td ${'class="all_instances' if instance.id == 0 else ''}>${instance.label}</td><td>${self.roles(instance.id)}</td></tr>
+    % endfor
+    </table>
+
+</%def>
+
+<%def name="roles(instance_id, role_id = 0)">
+<form action="${h.entity_url(c.group, member='change_role')}" method="POST">
+<input type="hidden" name="instance_id" value="${instance_id}">
+<select name="role_id" class="change_group_role" data-instance-id="${instance_id}" href="${h.entity_url(c.group, member='change_role')}">
+<option value="0">${_('none')}</option>
+% for role in c.roles:
+% if role.id < 8 and (instance_id == 0 or role.id > 2):
+<option value="${role.id}" ${'selected' if role_id == role.id else ''}>${role.role_name}</option>
+% endif
+% endfor
+</select>
+<input type="submit" value="assign role" class="submit-role-change">
+</form>
+</%def>

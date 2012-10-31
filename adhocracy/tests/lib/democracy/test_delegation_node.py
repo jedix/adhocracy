@@ -1,6 +1,6 @@
 from adhocracy import model
 from adhocracy.lib.democracy import Decision, DelegationNode
-from adhocracy.model import Delegation, Group, Poll, Vote
+from adhocracy.model import Delegation, Role, Poll, Vote
 
 from adhocracy.tests import TestController
 from adhocracy.tests.testtools import tt_get_instance
@@ -111,10 +111,10 @@ class TestInteractionOfDelegationOnDifferentLevels(TestController):
 
     def setUp(self):
         super(TestInteractionOfDelegationOnDifferentLevels, self).setUp()
-        voter_group = Group.by_code(Group.CODE_VOTER)
-        self.me = tt_make_user(instance_group=voter_group)
-        self.first = tt_make_user(instance_group=voter_group)
-        self.second = tt_make_user(instance_group=voter_group)
+        voter_role = Role.by_code(Role.CODE_VOTER)
+        self.me = tt_make_user(instance_role=voter_role)
+        self.first = tt_make_user(instance_role=voter_role)
+        self.second = tt_make_user(instance_role=voter_role)
         self.proposal = tt_make_proposal(voting=True)
 
     def _do_delegate(self, from_user, delegatee, scope):

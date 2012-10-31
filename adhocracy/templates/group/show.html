@@ -1,0 +1,59 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html" />
+<%namespace name="group_tiles" file="/group/tiles.html" />
+<%def name="title()">${c.group.group_name}</%def>
+
+<%def name="breadcrumbs()">
+${h.site.name()} &raquo; ${_("Groups")} &raquo; ${c.group.group_name}
+</%def>
+
+<%block name="headline">
+<div class="top_actions title">
+    %if can.group.edit(c.group):
+    <a class="button title edit" href="${c.base_group_url}">${_("group list")}</a>
+    <a class="button title edit" href="${h.entity_url(c.group, member='edit')}">${_("edit group")}</a>
+    <a class="button title edit" href="${h.entity_url(c.group, member='members')}">${_("manage members")}</a>
+    <a class="button title edit" href="${h.entity_url(c.group, member='roles')}">${_("assign roles")}</a>
+    <a class="button title edit" href="${h.entity_url(c.group, member='ask_delete')}">${_("delete group")}</a>
+    %endif
+</div>
+<h1 class="page_title">${c.group.group_name}</h1>
+</%block>
+
+<%block name="main_content">
+${c.tile.description|n}
+
+<h3>${_('Assigned roles')}</h3>
+% if len(c.group.group_roles):
+<h3>${_('Assigned roles')}</h3>
+<table class="group_roles">
+ <tr><th>${_('Instance')}</th><th>${_('Role')}</th></tr>
+  % for group_role in c.group.group_roles:
+    % if group_role.instance is None:
+    <tr><td>${_('all instances')}</td><td>${group_role.role.role_name}</td></tr>
+    % else:
+    <tr><td>${group_role.instance.label}</td><td>${group_role.role.role_name}</td></tr>
+    % endif
+  % endfor
+</table>
+% else:
+<p>${_('No roles assigned to this group.')}</p>
+% endif
+
+% if c.group.membership_visibility == 'all' or c.group.membership_visibility == 'members' and c.user in c.group.members()  or can.group.edit(c.group):
+    <h3>${_('Current members')}</h3>
+% if len(c.group.members()): 
+    <ul class="group-members">
+    % for member in c.group.members():
+    <li>${member.name}</li>
+    % endfor
+    </ul>
+% else:
+<p>${_('No members in this group.')}</p>
+% endif
+% endif
+
+</%block>
+
+
+

@@ -75,16 +75,16 @@ class UserResetApplyForm(formencode.Schema):
     email = validators.Email(not_empty=True)
 
 
-class UserGroupmodForm(formencode.Schema):
+class UserRolemodForm(formencode.Schema):
     allow_extra_fields = True
-    to_group = forms.ValidInstanceGroup()
+    to_role = forms.ValidInstanceRole()
 
 
 class UserFilterForm(formencode.Schema):
     allow_extra_fields = True
     users_q = validators.String(max=255, not_empty=False, if_empty=u'',
                                 if_missing=u'')
-    users_group = validators.String(max=255, not_empty=False, if_empty=None,
+    users_role = validators.String(max=255, not_empty=False, if_empty=None,
                                     if_missing=None)
 
 
@@ -167,7 +167,7 @@ class UserController(BaseController):
             membership = user.instance_membership(c.instance)
             if membership is None:
                 membership = model.Membership(user, c.instance,
-                                              c.instance.default_group)
+                                              c.instance.default_role)
                 model.meta.Session.expunge(membership)
                 model.meta.Session.add(membership)
                 model.meta.Session.commit()
@@ -576,20 +576,26 @@ class UserController(BaseController):
 
     @RequireInstance
     @RequireInternalRequest()
-    @validate(schema=UserGroupmodForm(), form="edit",
+    @validate(schema=UserRolemodForm(), form="edit",
               post_only=False, on_get=True)
-    def groupmod(self, id):
+    def rolemod(self, id):
         c.page_user = get_entity_or_abort(model.User, id)
         require.user.supervise(c.page_user)
-        to_group = self.form_result.get("to_group")
+        to_role = self.form_result.get("to_role")
+        if not to_role.code in model.Role.INSTANCE_ROLES:
+            h.flash(_("Cannot make %(user)s a member of %(role)s") % {
+                        'user': c.page_user.name,
+                        'role': to_role.role_name},
+                    'error')
+            redirect(h.entity_url(c.page_user))
         had_vote = c.page_user._has_permission("vote.cast")
         for membership in c.page_user.memberships:
             if (not membership.is_expired() and
                 membership.instance == c.instance):
-                membership.group = to_group
+                membership.role = to_role
         model.meta.Session.commit()
         event.emit(event.T_INSTANCE_MEMBERSHIP_UPDATE, c.page_user,
-                   instance=c.instance, group=to_group, admin=c.user)
+                   instance=c.instance, role=to_role, admin=c.user)
         if had_vote and not c.page_user._has_permission("vote.cast"):
             # user has lost voting privileges
             c.page_user.revoke_delegations(c.instance)

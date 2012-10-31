@@ -29,7 +29,7 @@ instance_table = \
           Column('delete_time', DateTime, nullable=True),
           Column('creator_id', Integer, ForeignKey('user.id'),
                  nullable=False),
-          Column('default_group_id', Integer, ForeignKey('group.id'),
+          Column('default_role_id', Integer, ForeignKey('role.id'),
                  nullable=True),
           Column('allow_adopt', Boolean, default=True),
           Column('allow_delegate', Boolean, default=True),
@@ -97,8 +97,8 @@ class Instance(meta.Indexable):
         members = [membership.user for membership in
                    self.current_memberships()]
         global_membership = Permission.find('global.member')
-        for group in global_membership.groups:
-            for membership in group.memberships:
+        for role in global_membership.roles:
+            for membership in role.memberships:
                 if membership.instance == None and not membership.expire_time:
                     members.append(membership.user)
         return list(set(members))
@@ -200,18 +200,18 @@ class Instance(meta.Indexable):
 
     @classmethod
     def create(cls, key, label, user, description=None, locale=None):
-        from group import Group
+        from role import Role
         from membership import Membership
         from page import Page
 
         instance = Instance(unicode(key).lower(), label, user)
         instance.description = description
-        instance.default_group = Group.by_code(Group.INSTANCE_DEFAULT)
+        instance.default_role = Role.by_code(Role.INSTANCE_DEFAULT)
         if locale is not None:
             instance.locale = locale
         meta.Session.add(instance)
-        supervisor_group = Group.by_code(Group.CODE_SUPERVISOR)
-        membership = Membership(user, instance, supervisor_group,
+        supervisor_role = Role.by_code(Role.CODE_SUPERVISOR)
+        membership = Membership(user, instance, supervisor_role,
                                 approved=True)
         meta.Session.add(membership)
         Page.create(instance, label, u"", user)
@@ -233,7 +233,7 @@ class Instance(meta.Indexable):
                  hidden=self.hidden,
                  url=h.entity_url(self),
                  instance_url=h.instance.url(self),
-                 default_group=self.default_group.code,
+                 default_role=self.default_role.code,
                  create_time=self.create_time)
         if self.description:
             d['description'] = self.description

@@ -43,7 +43,7 @@ def make_map():
                                          'votes': 'GET',
                                          'instances': 'GET',
                                          'watchlist': 'GET',
-                                         'groupmod': 'GET',
+                                         'rolemod': 'GET',
                                          'ban': 'GET',
                                          'unban': 'GET',
                                          'ask_delete': 'GET',
@@ -208,6 +208,39 @@ def make_map():
     map.connect('/badge/edit/{id}',
                 controller='badge', action="update",
                 conditions=dict(method=['POST']))
+    map.connect('/group', controller='group', action='index',
+                conditions=dict(method=['GET']))
+    map.connect('/group/{group_id}/edit', controller='group',
+                action="edit", conditions=dict(method=['GET']))
+    map.connect('/group/{group_id}/edit', controller='group',
+                action="update", conditions=dict(method=['POST']))
+    map.connect('/group/{group_id}/ask_delete', controller='group',
+                action="ask_delete", conditions=dict(method=['GET']))
+    map.connect('/group/add', controller='group',
+                action="add", conditions=dict(method=['GET']))
+    map.connect('/group/add', controller='group',
+                action="create", conditions=dict(method=['POST']))
+    map.connect('/group/{group_id}/userlist/{type}{.format}', controller='group',
+                action="userlist", conditions=dict(method=['GET']))
+    map.connect('/group/{group_id}/userlist/{type}/{name_filter}{.format}', controller='group',
+                action="userlist", conditions=dict(method=['GET']))
+    map.connect('/group/{group_id}/members', controller='group',
+                action="members", conditions=dict(method=['GET']))
+    map.connect('/group/{group_id}/members/{user_id}/remove{.format}', controller='group',
+                action="remove_member", conditions=dict(method=['GET']))
+    map.connect('/group/{group_id}/members/{user_id}/add{.format}', controller='group',
+                action="add_member", conditions=dict(method=['GET']))
+    map.connect('/group/{group_id}/roles', controller='group',
+                action="roles", conditions=dict(method=['GET']))
+    map.connect('/group/{group_id}/change_role/{instance_id}/{role_id}{.format}', controller='group',
+                action="change_role", conditions=dict(method=['GET']))
+    map.connect('/group/{group_id}/change_role', controller='group',
+                action="change_role", conditions=dict(method=['POST']))
+    map.connect('/group/{group_id}', controller='group',
+                action="show", conditions=dict(method=['GET']))
+    map.connect('/group/{group_id}', controller='group',
+                action="delete", conditions=dict(method=['POST', 'DELETE']))
+
 
     # not using REST since tags may contain dots, thus failing format
     # detection.

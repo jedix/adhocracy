@@ -22,8 +22,8 @@ from adhocracy.model.badge import (
         InstanceBadge,
         InstanceBadges
 )
-from adhocracy.model.group import Group, group_table
-from adhocracy.model.permission import (Permission, group_permission_table,
+from adhocracy.model.role import Role, role_table
+from adhocracy.model.permission import (Permission, role_permission_table,
                                         permission_table)
 from adhocracy.model.delegateable import (Delegateable, delegateable_table,
                                           category_graph)
@@ -44,6 +44,7 @@ from adhocracy.model.page import Page, page_table
 from adhocracy.model.text import Text, text_table
 from adhocracy.model.milestone import Milestone, milestone_table
 from adhocracy.model.selection import Selection, selection_table
+from adhocracy.model.group import Group, GroupMembership, GroupRole, group_table, group_membership_table, group_roles_table
 
 
 mapper(User, user_table, properties={
@@ -148,9 +149,9 @@ mapper(DelegateableBadge, inherits=badge_mapper,
 mapper(UserBadge, inherits=badge_mapper,
        polymorphic_identity=UserBadge.polymorphic_identity,
        properties={
-           'group': relation(
-               Group, primaryjoin=(group_table.c.id ==
-                                   badge_table.c.group_id),
+           'role': relation(
+               Role, primaryjoin=(role_table.c.id ==
+                                   badge_table.c.role_id),
                lazy=False),
            'users': relation(
                User, secondary=user_badges_table,
@@ -185,11 +186,11 @@ mapper(OpenID, openid_table, properties={
     })
 
 
-mapper(Group, group_table)
+mapper(Role, role_table)
 
 
 mapper(Permission, permission_table, properties={
-    'groups': relation(Group, secondary=group_permission_table, lazy=True,
+    'roles': relation(Role, secondary=role_permission_table, lazy=True,
                        backref=backref('permissions', lazy=False))
     })
 
@@ -334,7 +335,7 @@ mapper(Instance, instance_table, properties={
             primaryjoin=instance_table.c.creator_id == user_table.c.id,
                         backref=backref('created_instances')),
     'locale': synonym('_locale', map_column=True),
-    'default_group': relation(Group, lazy=True)
+    'default_role': relation(Role, lazy=True)
     })
 
 
@@ -344,7 +345,7 @@ mapper(Membership, membership_table, properties={
             primaryjoin=membership_table.c.user_id == user_table.c.id,
             backref=backref('memberships', lazy=True)),
     'instance': relation(Instance, backref=backref('memberships'), lazy=True),
-    'group': relation(Group, backref=backref('memberships'), lazy=False)
+    'role': relation(Role, backref=backref('memberships'), lazy=False)
     })
 
 
@@ -420,6 +421,27 @@ mapper(Selection, selection_table, properties={
             primaryjoin=selection_table.c.page_id == page_table.c.id)
     })
 
+mapper(Group, group_table)
+
+mapper(GroupMembership, group_membership_table, properties={
+    'group': relation(Group, backref=backref('group_memberships', cascade='delete'), lazy=False),
+    'user': relation(
+            User, lazy=True,
+            primaryjoin=group_membership_table.c.user_id == user_table.c.id,
+            backref=backref('group_memberships', lazy=True, cascade='delete'))
+    })
+
+mapper(GroupRole, group_roles_table, properties={
+    'group': relation(Group, backref=backref('group_roles', cascade='delete'), lazy=False),
+    'role': relation(
+            Role, lazy=True,
+            primaryjoin=group_roles_table.c.role_id == role_table.c.id,
+            backref=backref('group_roles', lazy=True, cascade='delete')),
+    'instance': relation(
+                Instance, lazy=True,
+                primaryjoin=group_roles_table.c.instance_id == instance_table.c.id,
+                backref=backref('group_roles', lazy=True, cascade='delete'))
+    })
 
 def init_model(engine):
     """Call me before using any of the tables or classes in the model"""

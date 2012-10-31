@@ -2,15 +2,15 @@ import formencode
 from formencode import Any, All, htmlfill, Invalid, validators
 from pylons import request, tmpl_context as c
 from pylons.controllers.util import redirect
+from pylons.decorators import validate
 from pylons.i18n import _
 from repoze.what.plugins.pylonshq import ActionProtector
 from repoze.what.predicates import Any as WhatAnyPredicate
-
-from adhocracy.forms.common import ValidInstanceGroup, ValidHTMLColor, ContainsChar
+from adhocracy.forms.common import ValidRole, ValidHTMLColor, ContainsChar
 from adhocracy.forms.common import ValidBadgeInstance
 from adhocracy.model import Badge, CategoryBadge, DelegateableBadge, UserBadge,\
     InstanceBadge
-from adhocracy.model import Group, Instance, meta
+from adhocracy.model import Role, Instance, meta
 from adhocracy.lib import helpers as h
 from adhocracy.lib.auth.authorization import has, has_permission
 from adhocracy.lib.auth.csrf import RequireInternalRequest
@@ -28,8 +28,8 @@ class BadgeForm(formencode.Schema):
 
 
 class UserBadgeForm(BadgeForm):
-    group = Any(validators.Empty, ValidInstanceGroup())
-    display_group = validators.StringBoolean(if_missing=False)
+    role = Any(validators.Empty, ValidRole())
+    display_role = validators.StringBoolean(if_missing=False)
 
 
 AnyAdmin = WhatAnyPredicate(has_permission('global.admin'),
@@ -47,11 +47,11 @@ class BadgeController(BaseController):
         '''
         Return the badges that are editable by a user.
         '''
-        c.groups = [{'permission': 'global.admin',
+        c.roles = [{'permission': 'global.admin',
                      'label': _('In all instances'),
                      'show_label': True}]
         if c.instance:
-            c.groups.append(
+            c.roles.append(
                 {'permission': 'instance.admin',
                  'label': _('In instance "%s"') % c.instance.label,
                  'show_label': h.has_permission('global.admin')})
@@ -98,7 +98,7 @@ class BadgeController(BaseController):
         if badge_type is not None:
             c.badge_type = badge_type
         c.form_type = 'add'
-        c.groups = Group.all_instance()
+        c.roles = meta.Session.query(Role).order_by(Role.role_name).all()
         return htmlfill.render(self.render_form(),
                                defaults=dict(request.params),
                                errors=errors)
@@ -157,9 +157,9 @@ class BadgeController(BaseController):
 
         title, color, description, instance = self._get_common_fields(
             self.form_result)
-        group = self.form_result.get('group')
-        display_group = self.form_result.get('display_group')
-        UserBadge.create(title, color, description, group, display_group,
+        role = self.form_result.get('role')
+        display_role = self.form_result.get('display_role')
+        UserBadge.create(title, color, description, role, display_role,
                          instance)
         # commit cause redirect() raises an exception
         meta.Session.commit()
@@ -235,11 +235,11 @@ class BadgeController(BaseController):
         defaults = dict(title=badge.title,
                         description=badge.description,
                         color=badge.color,
-                        display_group=badge.display_group,
+                        display_role=badge.display_role,
                         instance=instance_default)
         if isinstance(badge, UserBadge):
-            c.groups = Group.all_instance()
-            defaults['group'] = badge.group and badge.group.code or ''
+            c.roles = meta.Session.query(Role).order_by(Role.role_name)
+            defaults['role'] = badge.role and badge.role.code or ''
 
         return htmlfill.render(self.render_form(),
                                errors=errors,
@@ -263,15 +263,15 @@ class BadgeController(BaseController):
         badge = self.get_badge_or_redirect(id)
         title, color, description, instance = self._get_common_fields(
             self.form_result)
-        group = self.form_result.get('group')
-        display_group = self.form_result.get('display_group')
+        role = self.form_result.get('role')
+        display_role = self.form_result.get('display_role')
 
-        badge.group = group
+        badge.role = role
         badge.title = title
         badge.color = color
         badge.description = description
         badge.instance = instance
-        badge.display_group = display_group
+        badge.display_role = display_role
         meta.Session.commit()
         h.flash(_("Badge changed successfully"), 'success')
         redirect(self.base_url)

@@ -1623,3 +1623,20 @@ a.joyride-prev-tip:hover {
 #socialshareprivacy form {
   padding: 0;
 }
+
+/*Groups*/
+#group_table .options { float:right; margin-top:-4px; }
+table.group-instances, table.non-group-instances { width: 100%;}
+table.group-instances td, table.non-group-instances td { padding: 3px 5px;}
+table.group-instances td:first-child , table.non-group-instances td:first-child  { width:60%;}
+table.group-instances select, table.non-group-instances select, table.group-instances input, table.non-group-instances input { margin:0; }
+table.group-instances form, table.non-group-instances form { background:none; margin:0; padding:0; }
+#undo-box { height:100px; }
+.group-user-list { margin-bottom:2em; width:45%; float:left; margin-right:1em; }
+.group-user-list label { float:left; margin-right: 20px; line-height:30px; }
+.group-user-list ul { height:290px; overflow:auto; list-style:none; margin:0; padding:0;}
+.group-user-list ul li a { display:block; height:25px; margin:3px 0; }
+.group-user-list ul li a img { margin-right:3px; }
+.group-user-list ul li a:hover { background:#ddd; }
+.group-user-list ul li a.undo.remove { background:#9f9; }
+.group-user-list ul li a.undo.add { background:#f99; }

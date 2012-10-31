@@ -1,0 +1,64 @@
+<%inherit file="/template.html" />
+<%namespace name="components" file="/components.html" />
+<%namespace name="group_tiles" file="/group/tiles.html" />
+<%def name="title()">${c.form_title}</%def>
+
+<%def name="breadcrumbs()">
+    ${h.tag.breadcrumbs(None)|n}
+</%def>
+
+<%block name="headline">
+%if c.form_type == 'update':
+<div class="top_actions title">
+    <a class="button title edit" href="${c.base_group_url}">${_("group list")}</a>
+    <a class="button title edit" href="${h.entity_url(c.group, member='members')}">${_("manage members")}</a>
+    <a class="button title edit" href="${h.entity_url(c.group, member='roles')}">${_("assign roles")}</a>
+    <a class="button title edit" href="${h.entity_url(c.group, member='ask_delete')}">${_("delete group")}</a>
+</div>
+<h1 class="page_title">${_('Edit group:')} ${c.group.group_name}</h1>
+%else:
+<div class="top_actions title">
+    <a class="button title edit" href="${c.base_group_url}">${_("group list")}</a>
+</div>
+<h1 class="page_title">${_('Add group')}</h1>
+%endif
+</%block>
+
+<%block name="main_content">
+${self.form()}
+</%block>
+
+<%def name="form()">
+  <% h.need.spectrum %>
+  <form name="update_group" class="inplace" method="POST">
+
+      ${components.flashmessages()}
+
+    ${h.field_token()|n}
+
+    <label for="group_name" class="">${_("Group name")}</label>
+    <input name="group_name" id="group_name" class="" style="width:20em"
+           value="" />
+
+    <label for="description" class="">${_("Group description")}</label>
+    <textarea name="description" id="description"
+              style="width:90%; height: 10em" value="" >
+    </textarea>
+
+    <label for="membership_visibility" class="">${_("Membership visibility")}</label>
+    <select name="membership_visibility" id="membership_visibility">
+    % for option in c.visibility_options:
+       <option value="${option}">${_(option)}</option>
+    % endfor
+    </select>
+
+    <div class="mainbar">
+      ${components.savebox(c.base_url, _('Save group'))}
+    </div>
+
+  </form>
+
+</%def>
+
+
+
