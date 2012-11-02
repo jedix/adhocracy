@@ -36,9 +36,14 @@ ${self.form()}
     <p>${_('Click on a member to remove it from this group.')}</p>
     </div>
 
-    <div id="undo-box" class="group-user-list" style="display:none">
-      <h3>${_('Recent changes')}</h3>
-      <ul class="recent_changes">
+    <div id="undo-add" class="group-user-list" style="display:none">
+      <h4>${_('Recently added')}</h4>
+      <ul class="recently-added">
+      </ul>
+    </div>
+    <div id="undo-remove" class="group-user-list" style="display:none">
+      <h4>${_('Recently deleted')}</h4>
+      <ul class="recently-deleted">
       </ul>
     </div>
     <div class="group-user-list">

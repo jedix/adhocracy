@@ -53,7 +53,7 @@ badge_items = badges.get(permission, {}).get(type_, None)
         <td>${badge.description and (badge.description[:20] + u'...') or ''}</td>
         <td>${badge.color}</td>
         <td>${tiles.badge(badge)}</td>
-        <td>${badge.display_group and _("yes") or _("no")}</td>
+        <td>${badge.display_role and _("yes") or _("no")}</td>
         <td>${badge.role and badge.role.role_name or ""}</td>
         <td>${badge.display_role and _("yes") or _("no")}</td>
         

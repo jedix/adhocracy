@@ -1631,7 +1631,7 @@ table.group-instances td, table.non-group-instances td { padding: 3px 5px;}
 table.group-instances td:first-child , table.non-group-instances td:first-child  { width:60%;}
 table.group-instances select, table.non-group-instances select, table.group-instances input, table.non-group-instances input { margin:0; }
 table.group-instances form, table.non-group-instances form { background:none; margin:0; padding:0; }
-#undo-box { height:100px; }
+#undo-remove, #undo-add { display:none; height:50px; }
 .group-user-list { margin-bottom:2em; width:45%; float:left; margin-right:1em; }
 .group-user-list label { float:left; margin-right: 20px; line-height:30px; }
 .group-user-list ul { height:290px; overflow:auto; list-style:none; margin:0; padding:0;}

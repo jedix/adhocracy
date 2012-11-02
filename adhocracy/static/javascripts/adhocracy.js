@@ -662,21 +662,17 @@ $(document).ready(function () {
             widget_url = self.attr('href') + '.json',
             action = self.attr('action'), 
             other_action = (action == "add") ? "remove" : "add",
-            target_list = (self.hasClass("undo")) ? (action == "add" ? "group-members" : "non-group-members") : "recent_changes",
+            target_list = (action == "add") ? "recently-added" : "recently-deleted",
             after_item;
         $.ajax({
             url: widget_url,
             dataType: 'json',
             success: function (data) {
                 if (data.message == "success") {
-                    $('#undo-box').show();
-                    if (target_list == "recent_changes") {
-                        self.addClass("undo");
-                        self.addClass(other_action);
-                    } else {
-                        self.removeClass("undo");
-                        self.removeClass(other_action);
-                    }
+                    $('#undo-' + action).show();
+                    self.addClass("undo");
+                    self.removeClass(action);
+                    self.addClass(other_action);
                     self.attr('href', self.attr('href').replace(action, other_action));
                     self.attr('action', other_action);
                     after_item = "";

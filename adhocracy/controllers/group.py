@@ -120,6 +120,7 @@ class GroupController(BaseController):
     def delete(self, group_id):
         group = self.get_group_or_redirect(group_id)
         group.delete()
+        model.meta.Session.commit()
         redirect(self.base_url)
 
     @ActionProtector(has_permission("group.manage"))
@@ -206,10 +207,12 @@ class GroupController(BaseController):
                 return render_json({'message': _("Could not find member in group.")})
             else:
                 h.flash(_("Could not find member in group."))
+                redirect(h.entity_url(group, member='members'))
         else:
             delete_membership.delete()
-        if format == 'json':
-            return render_json({'message': 'success'})
+            model.meta.Session.commit()
+            if format == 'json':
+                return render_json({'message': 'success'})
         redirect(h.entity_url(group, member='members'))
 
     @ActionProtector(has_permission("group.manage"))
