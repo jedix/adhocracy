@@ -23,7 +23,7 @@ from adhocracy.lib.pager import NamedPager
 from adhocracy.lib.templating import render, render_json
 from adhocracy.lib.util import get_entity_or_abort
 
-from adhocracy.forms.common import ValidRole, ValidHTMLColor, ContainsChar
+from adhocracy.forms.common import ContainsChar
 
 import hashlib
 
