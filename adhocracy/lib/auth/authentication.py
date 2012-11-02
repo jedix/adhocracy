@@ -9,17 +9,17 @@ from repoze.what.middleware import setup_auth as setup_what
 from repoze.what.plugins.sql.adapters import SqlPermissionsAdapter
 
 import adhocracy.model as model
-from authorization import InstanceGroupSourceAdapter
+from authorization import InstanceRoleSourceAdapter
 from instance_auth_tkt import InstanceAuthTktCookiePlugin
 
 log = logging.getLogger(__name__)
 
 
 def setup_auth(app, config):
-    groupadapter = InstanceGroupSourceAdapter()
+    groupadapter = InstanceRoleSourceAdapter()
     #groupadapter.translations.update({'sections': 'groups'})
     permissionadapter = SqlPermissionsAdapter(model.Permission,
-                                              model.Group,
+                                              model.Role,
                                               model.meta.Session)
     #permissionadapter.translations.update(permission_translations)
 
