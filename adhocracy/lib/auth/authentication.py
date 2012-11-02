@@ -16,14 +16,21 @@ log = logging.getLogger(__name__)
 
 
 def setup_auth(app, config):
-    groupadapter = InstanceRoleSourceAdapter()
-    #groupadapter.translations.update({'sections': 'groups'})
+    roleadapter = InstanceRoleSourceAdapter()
+
+    """Because in our model permission containers are called
+    'roles' (and not 'groups'), we have to provide a translation
+    for the roleadapter and the permissionadapter.
+    """
+    roleadapter.translations.update({'sections': 'roles', 'section_name': 'role_name'})
     permissionadapter = SqlPermissionsAdapter(model.Permission,
                                               model.Role,
                                               model.meta.Session)
     #permissionadapter.translations.update(permission_translations)
+    permissionadapter.translations.update({'item_name': 'role_name'})
 
-    group_adapters = {'sql_auth': groupadapter}
+
+    role_adapters = {'sql_auth': roleadapter}
     permission_adapters = {'sql_auth': permissionadapter}
 
     basicauth = BasicAuthPlugin('Adhocracy HTTP Authentication')
@@ -54,7 +61,7 @@ def setup_auth(app, config):
     log_stream = None
     #log_stream = sys.stdout
 
-    return setup_what(app, group_adapters, permission_adapters,
+    return setup_what(app, role_adapters, permission_adapters,
                       identifiers=identifiers,
                       authenticators=authenticators,
                       challengers=challengers,
