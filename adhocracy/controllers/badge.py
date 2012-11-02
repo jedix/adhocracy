@@ -6,7 +6,7 @@ from pylons.decorators import validate
 from pylons.i18n import _
 from repoze.what.plugins.pylonshq import ActionProtector
 from repoze.what.predicates import Any as WhatAnyPredicate
-from adhocracy.forms.common import ValidRole, ValidHTMLColor, ContainsChar
+from adhocracy.forms.common import ValidInstanceRole, ValidHTMLColor, ContainsChar
 from adhocracy.forms.common import ValidBadgeInstance
 from adhocracy.model import Badge, CategoryBadge, DelegateableBadge, UserBadge,\
     InstanceBadge
@@ -28,7 +28,7 @@ class BadgeForm(formencode.Schema):
 
 
 class UserBadgeForm(BadgeForm):
-    role = Any(validators.Empty, ValidRole())
+    role = Any(validators.Empty, ValidInstanceRole())
     display_role = validators.StringBoolean(if_missing=False)
 
 
