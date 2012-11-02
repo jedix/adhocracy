@@ -11,6 +11,10 @@ def klass(what):
         <a href="${h.base_url(None, path='/badge')}">${_("Badges")}</a>
     </li>
 
+    <li class="${klass('groups')}">
+        <a href="${h.base_url(None, path='/group')}">${_("Groups")}</a>
+    </li>
+
     <li class="${klass('permissions')}">
         <a href="/admin/permissions?${h.url_token()}">${_("Permissions")}</a>
     </li>
