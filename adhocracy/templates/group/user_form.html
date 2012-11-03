@@ -8,6 +8,7 @@
 </%def>
 
 <%block name="headline">
+<div class="well clearfix">
 <div class="top_actions title">
     %if can.group.edit(c.group):
     <a class="button title edit" href="${c.base_group_url}">${_("group list")}</a>
@@ -19,12 +20,12 @@
 <h1 class="page_title">${_('Edit members of group')}: ${c.group.group_name}</h1>
 
 ${self.form()}
+</div>
 </%block>
 
 <%def name="form()">
   <% h.need.spectrum %>
       ${components.flashmessages()}
-
 
     <div class="group-user-list">
     <input placeholder="${_('Find member...')}" type="text" value="" id="member_search" data-ajax-url="${h.entity_url(c.group, member='userlist')}/members" data-link-href="${h.entity_url(c.group, member='members')}/" />
@@ -33,7 +34,9 @@ ${self.form()}
     <li><a action="remove" class="change_group_member" href="${h.entity_url(c.group, member='members')}/${member.id}/remove"><img src="${h.group.gravatar(member.email, 25)}">${member.name} (${member.email})</a></li>
     % endfor 
     </ul>
-    <p>${_('Click on a member to remove it from this group.')}</p>
+    % if c.more_group_members:
+     ${_('And')} ${c.more_group_members} ${_('more')}...
+    % endif
     </div>
 
     <div id="undo-add" class="group-user-list" style="display:none">
@@ -54,7 +57,11 @@ ${self.form()}
     <li><a action="add" class="change_group_member" href="${h.entity_url(c.group, member='members')}/${member.id}/add"><img src="${h.group.gravatar(member.email, 25)}">${member.name} (${member.email})</a></li>
     % endfor 
     </ul>
-    <p>${_('Click on a user to add it from this group.')}</p>
+    <p id="more-non-members">
+    % if c.more_non_group_members:
+     ${_('And')} ${c.more_non_group_members} ${_('more')}...
+    % endif
+    </p>
     </div>
 </%def>
 
