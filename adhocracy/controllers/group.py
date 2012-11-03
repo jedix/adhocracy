@@ -128,8 +128,16 @@ class GroupController(BaseController):
         group = self.get_group_or_redirect(group_id)
         c.base_group_url = self.base_url
         c.group = group
-        c.group_members = model.User.search(include_group=group.id)
-        c.non_group_members = model.User.search(exclude_group=group.id)
+        #c.group_members = model.User.search(include_group=group.id)
+        #c.non_group_members = model.User.search(exclude_group=group.id)
+        # With number of users (second query)
+        user_limit = 10
+        c.group_members = model.User.search(limit=user_limit, include_group=group.id)
+        if len(c.group_members) == user_limit:
+            c.more_group_members = model.User.search(include_group=group.id, count_only=True) - user_limit
+        c.non_group_members = model.User.search(limit=user_limit, exclude_group=group.id)
+        if len(c.non_group_members) == user_limit:
+            c.more_non_group_members = model.User.search(exclude_group=group.id, count_only=True) - user_limit
         return render("/group/user_form.html")
 
     @ActionProtector(has_permission("group.manage"))
@@ -179,13 +187,12 @@ class GroupController(BaseController):
                 return render_json({'message' : _("User does not exist.")})
             h.flash(_("User does not exist."))
             redirect(h.entity_url(group, member='members'))
-        for membership in group.group_memberships:
-            if membership.user.id == int(user_id):
-                if format == 'json':
-                    return render_json({'message' : _("User is already member of this group.")})
-                else:
-                    h.flash(_("User is already member of this group."))
-                    redirect(h.entity_url(group, member='members'))
+        if user.is_group_member(group.id):
+            if format == 'json':
+                return render_json({'message' : _("User is already member of this group.")})
+            else:
+                h.flash(_("User is already member of this group."))
+                redirect(h.entity_url(group, member='members'))
         group_membership = model.GroupMembership(group, user)
         model.meta.Session.add(group_membership)
         model.meta.Session.commit()
@@ -197,11 +204,7 @@ class GroupController(BaseController):
     @ActionProtector(has_permission("group.manage"))
     def remove_member(self, group_id, user_id, format='html'):
         group = self.get_group_or_redirect(group_id)
-        delete_membership = None
-        for membership in group.group_memberships:
-            if membership.user.id == int(user_id):
-                delete_membership = membership
-                break
+        delete_membership = model.GroupMembership.find(group_id=group.id, user_id=int(user_id))
         if delete_membership is None:
             if format == 'json':
                 return render_json({'message': _("Could not find member in group.")})

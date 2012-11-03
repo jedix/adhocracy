@@ -142,6 +142,9 @@ class User(meta.Indexable):
     def is_member(self, instance):
         return self.instance_membership(instance) is not None
 
+    def is_group_member(self, group):
+        return group in [group_membership.group for group_membership in self.group_memberships]
+
     @property
     def instances(self):
         instances = []
@@ -270,7 +273,7 @@ class User(meta.Indexable):
             return None
 
     @classmethod
-    def search(cls, name_filter=None, include_group=None, exclude_group=None, include_deleted=False, limit=10, sql=False):
+    def search(cls, name_filter=None, include_group=None, exclude_group=None, include_deleted=False, limit=10, count_only=False):
         q = meta.Session.query(User)
         if not include_deleted:
             q = q.filter(or_(User.delete_time == None,
@@ -290,9 +293,9 @@ class User(meta.Indexable):
             q1 = q1.filter(GroupMembership.group_id == exclude_group)
             q1 = q1.filter(GroupMembership.user_id == User.id)
             q = q.filter(not_(User.id.in_(q1)))
+        if count_only:
+            return q.count()
         q = q.limit(limit)
-        if sql:
-            return q.statement
         return sorted(q.all(), key=lambda user:user.name.lower())
 
     @classmethod
