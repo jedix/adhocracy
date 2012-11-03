@@ -285,20 +285,22 @@ class GroupController(BaseController):
     @ActionProtector(has_permission("group.manage"))
     def userlist(self, group_id, type='members', name_filter=None, format='ajax'):
         group = model.Group.by_id(group_id)
+        userlimit = 10
+        count = 0
         if group is None:
             return render_json([]);
         userlist = []
         if type == 'members':
-            users = model.User.search(name_filter, include_group=group.id)
-            for user in users:
-                userlist.append([user.id, user.name, user.email, hashlib.md5(user.email.lower()).hexdigest()])
+            users = model.User.search(name_filter, include_group=group.id, limit=userlimit)
+            if len(users) == userlimit:
+                count = model.User.search(name_filter, include_group=group.id, count_only=True) - userlimit
         else:
-            users = model.User.search(name_filter, exclude_group=group.id)
-            sql = model.User.search(name_filter, exclude_group=group.id, sql=True)
-            log.error(sql)
-            for user in users:
-                userlist.append([user.id, user.name, user.email, hashlib.md5(user.email.lower()).hexdigest()])
-        return render_json(userlist)
+            users = model.User.search(name_filter, exclude_group=group.id, limit=userlimit)
+            if len(users) == userlimit:
+                count = model.User.search(name_filter, include_group=group.id, count_only=True) - userlimit
+        for user in users:
+            userlist.append([user.id, user.name, user.email, hashlib.md5(user.email.lower()).hexdigest()])
+        return render_json([count, userlist])
 
     def _get_common_fields(self, form_result):
         '''

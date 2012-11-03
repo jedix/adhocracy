@@ -35,8 +35,12 @@ ${self.form()}
     % endfor 
     </ul>
     % if c.more_group_members:
-     ${_('And')} ${c.more_group_members} ${_('more')}...
+    <p id="more-group-members">
+    % else:
+    <p id="more-group-members" style="display:none">
     % endif
+     ${_('And')} <span>${c.more_group_members}</span> ${_('more')}...
+    </p>
     </div>
 
     <div id="undo-add" class="group-user-list" style="display:none">
@@ -57,10 +61,12 @@ ${self.form()}
     <li><a action="add" class="change_group_member" href="${h.entity_url(c.group, member='members')}/${member.id}/add"><img src="${h.group.gravatar(member.email, 25)}">${member.name} (${member.email})</a></li>
     % endfor 
     </ul>
-    <p id="more-non-members">
     % if c.more_non_group_members:
-     ${_('And')} ${c.more_non_group_members} ${_('more')}...
+    <p id="more-non-group-members">
+    % else:
+    <p id="more-non-group-members" style="display:none">
     % endif
+     ${_('And')} <span>${c.more_non_group_members}</span> ${_('more')}...
     </p>
     </div>
 </%def>

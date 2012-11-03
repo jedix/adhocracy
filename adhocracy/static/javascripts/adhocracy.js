@@ -643,11 +643,17 @@ $(document).ready(function () {
             success: function (data) {
                 html = "";
                 var regex = new RegExp( '(' + self.val() + ')', 'gi' );
-                for (x in data) {
-                    userid = data[x][0];
-                    username = data[x][1].replace(regex, "<b>$1</b>");
-                    email = data[x][2].replace(regex, "<b>$1</b>");
-                    mailhash = data[x][3];
+                $('#more-' + list_class + ' span').html(data[0]);
+                if (data[0] == "0") {
+                    $('#more-' + list_class).hide();
+                } else {
+                    $('#more-' + list_class).show();
+                }
+                for (x in data[1]) {
+                    userid = data[1][x][0];
+                    username = data[1][x][1].replace(regex, "<b>$1</b>");
+                    email = data[1][x][2].replace(regex, "<b>$1</b>");
+                    mailhash = data[1][x][3];
                     html = html + '<li><a class="change_group_member" action="' + action + '" href="' + link + userid +  '/' + action + '"><img src="https://www.gravatar.com/avatar/' + mailhash + '?s=25" />' + username + ' (' + email + ')</a></li>';
                 }
                 $('.' + list_class).html(html);
