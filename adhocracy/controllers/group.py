@@ -297,7 +297,7 @@ class GroupController(BaseController):
         else:
             users = model.User.search(name_filter, exclude_group=group.id, limit=userlimit)
             if len(users) == userlimit:
-                count = model.User.search(name_filter, include_group=group.id, count_only=True) - userlimit
+                count = model.User.search(name_filter, exclude_group=group.id, count_only=True) - userlimit
         for user in users:
             userlist.append([user.id, user.name, user.email, hashlib.md5(user.email.lower()).hexdigest()])
         return render_json([count, userlist])

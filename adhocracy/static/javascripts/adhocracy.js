@@ -692,6 +692,9 @@ $(document).ready(function () {
                     } else {
                         $('body ul.' + target_list).append(self.parent());
                     }
+                    if ($('#undo-' + other_action + ' ul').children().length == 0) {
+                        $('#undo-' + other_action).hide();
+                    }
                 } else {
                     alert(data.message);
                 }
