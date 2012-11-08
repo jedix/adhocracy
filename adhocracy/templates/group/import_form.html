@@ -1,0 +1,39 @@
+<%inherit file="/template.html" />
+<%namespace name="forms" file="/forms.html"/>
+<%namespace name="components" file="/components.html"/>
+<%def name="title()">${_("Admin: Import Users")}</%def>
+
+<%block name="headline">
+<div class="top_actions title">
+    <a class="button title edit" href="${c.base_group_url}">${_("group list")}</a>
+    <a class="button title edit" href="${h.entity_url(c.group, member='edit')}">${_("edit group")}</a>
+    <a class="button title edit" href="${h.entity_url(c.group, member='members')}">${_("manage members")}</a>
+    <a class="button title edit" href="${h.entity_url(c.group, member='roles')}">${_("assign roles")}</a>
+    <a class="button title edit" href="${h.entity_url(c.group, member='ask_delete')}">${_("delete group")}</a>
+</div>
+
+    <h1>${_("Import Members")}</h1>
+</%block>
+
+<%block name="main_content">
+${self.form()}
+</%block>
+
+<%def name="form()">
+
+<form name="import_members" class="well" method="POST">
+
+    ${h.field_token()|n}
+
+    <div class="input_wrapper">
+        <%forms:textarea 
+            label="${_('E-Mails')}"
+            name="emails"
+            value=""
+            tabindex="1"
+            help="${_('Paste a list of emails, one email per line.')}">
+        </%forms:textarea>
+    </div>
+    ${components.savebox("")}
+</form>
+</%def>

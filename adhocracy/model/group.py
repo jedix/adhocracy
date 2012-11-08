@@ -55,11 +55,11 @@ class Group(object):
         return meta.Session.query(Group).all()
 
     @classmethod
-    #@meta.session_cached
-    def find(cls, group_name):
+    def find(cls, id):
         try:
             q = meta.Session.query(Group)
-            q = q.filter(Group.group_name == group_name)
+            id = int(unicode(id).split('-', 1)[0])
+            q = q.filter(Group.id == id)
             return q.limit(1).first()
         except Exception, e:
             log.warn("find(%s): %s" % (id, e))

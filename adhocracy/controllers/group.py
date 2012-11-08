@@ -42,6 +42,11 @@ class ChangeRoleForm(formencode.Schema):
     instance_id = All()
     role_id = All()
 
+class GroupImportForm(formencode.Schema):
+    allow_extra_fields = True
+    emails = All(validators.String(not_empty=True))
+
+
 class DummyInstance():
     def __init__(self, id, label):
         self.id = id
@@ -66,7 +71,7 @@ class GroupController(BaseController):
         '''
         Get a group. Redirect if it does not exist. 
         '''
-        group = model.Group.by_id(id)
+        group = model.Group.find(id)
         if group is None or not has_permission('group.manage'):
             self._redirect_not_found(id)
         return group
@@ -128,6 +133,7 @@ class GroupController(BaseController):
         group = self.get_group_or_redirect(group_id)
         c.base_group_url = self.base_url
         c.group = group
+        c.errors = errors
         #c.group_members = model.User.search(include_group=group.id)
         #c.non_group_members = model.User.search(exclude_group=group.id)
         # With number of users (second query)
@@ -187,7 +193,7 @@ class GroupController(BaseController):
                 return render_json({'message' : _("User does not exist.")})
             h.flash(_("User does not exist."))
             redirect(h.entity_url(group, member='members'))
-        if user.is_group_member(group.id):
+        if user.is_group_member(group):
             if format == 'json':
                 return render_json({'message' : _("User is already member of this group.")})
             else:
@@ -283,8 +289,38 @@ class GroupController(BaseController):
         redirect(self.base_url)
 
     @ActionProtector(has_permission("group.manage"))
+    def import_members(self, group_id):
+        c.group = self.get_group_or_redirect(group_id)
+        return render("/group/import_form.html")
+
+    @ActionProtector(has_permission("group.manage"))
+    def do_import(self, group_id):
+        group = self.get_group_or_redirect(group_id)
+        try:
+            self.form_result = GroupImportForm().to_python(request.params)
+        except Invalid, i:
+            self.import_members(i.unpack_errors())
+
+        emails = self._get_email_list(self.form_result)
+        emails_not_found = []
+        for email in emails.splitlines():
+            user = model.User.find_by_email(email.strip(), True)
+            if user is not None:
+                if not user.is_group_member(group):
+                    group_membership = model.GroupMembership(group, user)
+                    model.meta.Session.add(group_membership)
+            else:
+                emails_not_found.append(email.strip())
+        if len(emails) > len(emails_not_found):
+            model.meta.Session.commit()
+        if len(emails_not_found) == 0:
+            emails_not_found = None
+        return self.members(group.id, errors=emails_not_found)
+
+
+    @ActionProtector(has_permission("group.manage"))
     def userlist(self, group_id, type='members', name_filter=None, format='ajax'):
-        group = model.Group.by_id(group_id)
+        group = model.Group.find(group_id)
         userlimit = 10
         count = 0
         if group is None:
@@ -309,6 +345,9 @@ class GroupController(BaseController):
         return (form_result.get('group_name').strip(),
                 form_result.get('description').strip(),
                 form_result.get('membership_visibility').strip())
+
+    def _get_email_list(self, form_result):
+        return (form_result.get('emails').strip())
 
     def _get_change_role_fields(self, form_result):
         return (form_result.get('instance_id'), form_result.get('role_id'))

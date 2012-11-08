@@ -8,17 +8,26 @@
 </%def>
 
 <%block name="headline">
-<div class="well clearfix">
 <div class="top_actions title">
     %if can.group.edit(c.group):
     <a class="button title edit" href="${c.base_group_url}">${_("group list")}</a>
     <a class="button title edit" href="${h.entity_url(c.group, member='edit')}">${_("edit group")}</a>
+    <a class="button title edit" href="${h.entity_url(c.group, member='import')}">${_("import members")}</a>
     <a class="button title edit" href="${h.entity_url(c.group, member='roles')}">${_("assign roles")}</a>
     <a class="button title edit" href="${h.entity_url(c.group, member='ask_delete')}">${_("delete group")}</a>
     %endif
 </div>
 <h1 class="page_title">${_('Edit members of group')}: ${c.group.group_name}</h1>
 
+% if c.errors: 
+<h3 style="color: red">${_('The following emails could not be found')}:</h3>
+<ul>
+%     for email in c.errors:
+     <li>${email}</li>
+%     endfor
+</ul>
+% endif
+<div class="well clearfix">
 ${self.form()}
 </div>
 </%block>

@@ -224,6 +224,10 @@ def make_map():
                 action="userlist", conditions=dict(method=['GET']))
     map.connect('/group/{group_id}/userlist/{type}/{name_filter}{.format}', controller='group',
                 action="userlist", conditions=dict(method=['GET']))
+    map.connect('/group/{group_id}/import', controller='group',
+                action="import_members", conditions=dict(method=['GET']))
+    map.connect('/group/{group_id}/import', controller='group',
+                action="do_import", conditions=dict(method=['POST']))
     map.connect('/group/{group_id}/members', controller='group',
                 action="members", conditions=dict(method=['GET']))
     map.connect('/group/{group_id}/members/{user_id}/remove{.format}', controller='group',
