@@ -153,6 +153,7 @@ class InstanceController(BaseController):
         require.instance.index()
 
         c.instance_pager = pager.solr_instance_pager()
+        c.active_global_nav = 'instances'
 
         if format == 'json':
             return render_json(c.instance_pager)
