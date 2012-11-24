@@ -136,7 +136,10 @@ class User(meta.Indexable):
         for group_membership in self.group_memberships:
             for group_role in group_membership.group.group_roles:
                 if group_role.instance == instance:
-                    return Membership(self, instance, group_role.role)
+                    membership_object = Membership(self, instance, group_role.role)
+                    membership_object.create_time = self.create_time
+                    membership_object.access_time = self.access_time
+                    return membership_object
         return None
 
     def is_member(self, instance):
