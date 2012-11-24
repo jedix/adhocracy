@@ -1,7 +1,7 @@
 import logging
 
 from datetime import datetime
-from sqlalchemy import Integer, DateTime, Boolean, String
+from sqlalchemy import Integer, DateTime, Boolean
 from sqlalchemy import Table, Column, Integer, Unicode, ForeignKey, or_, and_
 
 import meta
@@ -12,7 +12,7 @@ group_table = Table('group', meta.data,
     Column('id', Integer, primary_key=True),
     Column('group_name', Unicode(255), nullable=False),
     Column('description', Unicode(1000)),
-    Column('membership_visibility', String(40), default=u"none", nullable=False)
+    Column('membership_visibility', Unicode(40), default=u"none", nullable=False)
     )
 
 # --[ relation tables ]-----------------------------------------------------
