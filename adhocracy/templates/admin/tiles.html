@@ -11,8 +11,16 @@ def klass(what):
         <a href="${h.base_url(None, path='/badge')}">${_("Badges")}</a>
     </li>
 
+    <li class="${klass('users')}">
+        <a href="/user/all">${_("Users")}</a>
+    </li>
+
     <li class="${klass('groups')}">
         <a href="${h.base_url(None, path='/group')}">${_("User Groups")}</a>
+    </li>
+
+    <li class="${klass('import_users')}">
+        <a href="/admin/users/import">${_("Import Users")}</a>
     </li>
 
     <li class="${klass('permissions')}">
@@ -23,13 +31,7 @@ def klass(what):
         <a href="/event/all">${_("All Events")}</a>
     </li>
 
-    <li class="${klass('users')}">
-        <a href="/user/all">${_("Users")}</a>
-    </li>
 
-    <li class="${klass('import_users')}">
-        <a href="/admin/users/import">${_("Import Users")}</a>
-    </li>
 
 </ul>
 </%def>

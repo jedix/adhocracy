@@ -9,8 +9,27 @@
 ${admin_tiles.headline()}
 </%block>
 
-<%block name="main_content"
-_('Administrate the Installation')
+<%block name="main_content">
+<p><strong>${_('Administrate the Installation')}</strong></p>
+
+<h3>${_('Badges')} <a href="${h.base_url(None, path='/badge')}" class="btn">${_('Manage Badges')}</a></h3>
+<p>${_('Badges can be used to categorize users, proposals and instances. They can be displayed next to user names, proposal names and instance names.')}</p>
+
+<h3>${_('Users')} <a href="${h.base_url(None, path='/user/all')}" class="btn">${_('Manage Users')}</a></h3>
+<p>${_('Show all users in this installation.')}</p>
+
+<h3>${_('User Groups')} <a href="${h.base_url(None, path='/group')}" class="btn">${_('Manage User Groups')}</a></h3>
+<p>${_('User groups can be used to assign multiple users to multiple roles at once.')}</p>
+
+<h3>${_('User Import')} <a href="${h.base_url(None, path='/admin/users/import')}" class="btn">${_('Import Users')}</a></h3>
+<p>${_('Use a CSV file to import users into this installation. An email is sent to each new user.')}</p>
+
+<h3>${_('Permissions')} <a href="${h.base_url(None, path='/admin/permissions')}?${h.url_token()}" class="btn">${_('Manage Permissions')}</a></h3>
+<p>${_('Permissions can be assigned to predefined roles.')}</p>
+
+<h3>${_('Events')} <a href="${h.base_url(None, path='/event/all')}" class="btn">${_('Display Events')}</a></h3>
+<p>${_('Display a list of all events.')}</p>
+
 </%block>
 
 <%block name="sidebar">
