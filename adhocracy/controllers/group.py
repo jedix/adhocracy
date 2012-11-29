@@ -290,6 +290,7 @@ class GroupController(BaseController):
 
     @ActionProtector(has_permission("group.manage"))
     def import_members(self, group_id):
+        c.base_group_url = self.base_url
         c.group = self.get_group_or_redirect(group_id)
         return render("/group/import_form.html")
 

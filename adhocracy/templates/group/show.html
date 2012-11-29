@@ -24,9 +24,12 @@ ${h.site.name()} &raquo; ${_("Groups")} &raquo; ${c.group.group_name}
 <%block name="main_content">
 ${c.tile.description|n}
 
-<h3>${_('Assigned roles')}</h3>
+<h3>${_('Assigned roles')}
+%if can.group.edit(c.group):
+ <a href="${h.entity_url(c.group, member='roles')}" class="btn">${_('assign roles')}</a>
+%endif
+</h3>
 % if len(c.group.group_roles):
-<h3>${_('Assigned roles')}</h3>
 <table class="group_roles">
  <tr><th>${_('Instance')}</th><th>${_('Role')}</th></tr>
   % for group_role in c.group.group_roles:
@@ -42,7 +45,11 @@ ${c.tile.description|n}
 % endif
 
 % if c.group.membership_visibility == 'all' or c.group.membership_visibility == 'members' and c.user in c.group.members()  or can.group.edit(c.group):
-    <h3>${_('Current members')}</h3>
+    <h3>${_('Current members')}
+%if can.group.edit(c.group):
+ <a href="${h.entity_url(c.group, member='members')}" class="btn">${_('manage members')}</a>
+%endif
+    </h3>
 % if len(c.group.members()): 
     <ul class="group-members">
     % for member in c.group.members():
