@@ -716,7 +716,7 @@ $(document).ready(function () {
             instance_id = self.attr("data-instance-id"),
             role_id = self.val(),
             widget_url = self.attr('href') + '/' + instance_id + '/' + role_id + '.json',
-            after_item,
+            after_item, move_item, new_position, old_position,
             other_list_class = (role_id == 0) ? "non-group-instances" : "group-instances";
         $.ajax({
             url: widget_url,
@@ -724,20 +724,28 @@ $(document).ready(function () {
             success: function (data) {
                 if (data.message == "success") {
                     after_item = "";
-                    if (instance_id == 0) {
-                       after_item = $("body table." + other_list_class).children(":first");
-                    } else {
-                        $("body table." + other_list_class + " tr").each(function() {
-                            var td = $(this).children(":first");
-                            if (!td.hasClass("all_instances") && td.html().toLowerCase() > self.closest("tr").children(":first").html().toLowerCase() && after_item.length == 0) {
-                                after_item = $(this);
-                            }
+                    move_item = self.closest("tr");
+                    old_position = move_item.position();
+                    new_position = $("body table." + other_list_class).position();
+                    move_item.css({'position':'absolute', 'left':old_position.left, 'top':old_position.top, 'width':move_item.width()});
+                    move_item.addClass("undo");
+                    move_item.animate({'left':new_position.left,'top':new_position.top},300, function() {
+                        if (instance_id == 0) {
+                           after_item = $("body table." + other_list_class).children(":first");
+                        } else {
+                            $("body table." + other_list_class + " tr").each(function() {
+                                var td = $(this).children(":first");
+                                if (!td.hasClass("all_instances") && td.html().toLowerCase() > move_item.children(":first").html().toLowerCase() && after_item.length == 0) {
+                                    after_item = $(this);
+                                }
+                            });
+                        }
+                        move_item.css({'position':'relative', 'left':'auto','top':'auto', 'width':'auto'});
                     });
-                    }
                     if (after_item.length > 0) {
-                        after_item.before(self.closest("tr"))
+                        after_item.before(move_item)
                     } else {
-                        $('body table.' + other_list_class).append(self.closest("tr"));
+                        $('body table.' + other_list_class).append(move_item);
                     }
                 } else {
                     alert(data.message);

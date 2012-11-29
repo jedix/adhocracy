@@ -1646,3 +1646,5 @@ table.group-instances form, table.non-group-instances form { background:none; ma
 .group-user-list ul li a.undo { background-image:url(/images/undo.png); background-repeat:no-repeat; background-position:top right; }
 .group-user-list ul li a.undo.remove { background-color:#9f9; }
 .group-user-list ul li a.undo.add { background-color:#f99; }
+.group-instances tr.undo { background-color:#9f9; }
+.non-group-instances tr.undo { background-color:#f99; }
