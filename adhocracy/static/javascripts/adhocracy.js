@@ -669,29 +669,36 @@ $(document).ready(function () {
             action = self.attr('action'), 
             other_action = (action == "add") ? "remove" : "add",
             target_list = (action == "add") ? "recently-added" : "recently-deleted",
-            after_item;
+            after_item, move_item, old_position, new_position;
         $.ajax({
             url: widget_url,
             dataType: 'json',
             success: function (data) {
                 if (data.message == "success") {
                     $('#undo-' + action).show();
-                    self.addClass("undo");
                     self.removeClass(action);
                     self.addClass(other_action);
                     self.attr('href', self.attr('href').replace(action, other_action));
                     self.attr('action', other_action);
                     after_item = "";
+                    move_item = self.parent();
                     $("body ul." + target_list + " li").each(function() {
-                        if ($('a', this).text().toLowerCase() > $('a', self.parent()).text().toLowerCase() && after_item.length == 0) {
+                        if ($('a', this).text().toLowerCase() > $('a', move_item).text().toLowerCase() && after_item.length == 0) {
                             after_item = $(this);
                         }
                     });
-                    if (after_item.length > 0) {
-                        after_item.before(self.parent())
-                    } else {
-                        $('body ul.' + target_list).append(self.parent());
-                    }
+                    old_position = move_item.offset();
+                    new_position = $('body ul.'+target_list).offset();
+                    move_item.css({'position':'absolute', 'left':old_position.left, 'top':old_position.top, 'width':move_item.width()});
+                    self.addClass("undo");
+                    move_item.animate({'left':new_position.left,'top':new_position.top},500, function() {
+                        if (after_item.length > 0) {
+                            after_item.before(move_item)
+                        } else {
+                            $('body ul.' + target_list).append(move_item);
+                        }
+                        move_item.css({'position':'relative', 'left':'auto','top':'auto', 'width':'auto'});
+                    });
                     if ($('#undo-' + other_action + ' ul').children().length == 0) {
                         $('#undo-' + other_action).hide();
                     }
