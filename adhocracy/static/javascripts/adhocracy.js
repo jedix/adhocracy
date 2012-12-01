@@ -607,12 +607,13 @@ $(document).ready(function () {
         var self = $(this),
             url, html, link,
             userid, username, email, mailhash, x,
-            action, list_class;
+            action, list_class,withLinks;
 
         url = self.attr("data-ajax-url");
         link = self.attr("data-link-href");
         action = (self.attr("id") == "member_search") ? "remove" : "add";
         list_class = (self.attr("id") == "member_search") ? "group-members" : "non-group-members";
+        withLinks = self.hasClass('with-links');
         if (self.val().trim() != '') {
             url = url + "/" + self.val().trim();
         }
@@ -633,7 +634,11 @@ $(document).ready(function () {
                     username = data[1][x][1].replace(regex, "<b>$1</b>");
                     email = data[1][x][2].replace(regex, "<b>$1</b>");
                     mailhash = data[1][x][3];
-                    html = html + '<li><a class="change_group_member" action="' + action + '" href="' + link + userid +  '/' + action + '"><img src="https://www.gravatar.com/avatar/' + mailhash + '?s=25" />' + username + ' (' + email + ')</a></li>';
+                    if (withLinks) {
+                        html = html + '<li><a class="change_group_member" action="' + action + '" href="' + link + userid +  '/' + action + '"><img src="https://www.gravatar.com/avatar/' + mailhash + '?s=25" />' + username + ' (' + email + ')</a></li>';
+                    } else {
+                        html = html + '<li><span><img src="https://www.gravatar.com/avatar/' + mailhash + '?s=25" />' + username + '</span></li>';
+                    }
                 }
                 $('.' + list_class).html(html);
             }

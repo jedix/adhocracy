@@ -1640,9 +1640,9 @@ table.group-instances form, table.non-group-instances form { background:none; ma
 .group-user-list.right { float:right; clear:right; } 
 .group-user-list label { float:left; margin-right: 20px; line-height:30px; }
 .group-user-list ul { max-height:290px; overflow:auto; list-style:none; margin:0; padding:0; clear:left;}
-.group-user-list ul li a { display:block; height:25px; margin:3px 0; line-height:25px;}
-.group-user-list ul li a img { margin-right:3px; float:left;}
-.group-user-list ul li a:hover { background-color:#ddd; }
+.group-user-list ul li a, .group-user-list ul li span { display:block; height:25px; margin:3px 0; line-height:25px;}
+.group-user-list ul li a img, .group-user-list ul li span img { margin-right:3px; float:left;}
+.group-user-list ul li a:hover, .group-user-list ul li span:hover { background-color:#ddd; }
 .group-user-list ul li a.undo { background-image:url(/images/undo.png); background-repeat:no-repeat; background-position:top right; }
 .group-user-list ul li a.undo.remove { background-color:#9f9; }
 .group-user-list ul li a.undo.add { background-color:#f99; }

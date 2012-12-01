@@ -44,18 +44,34 @@ ${c.tile.description|n}
 <p>${_('No roles assigned to this group.')}</p>
 % endif
 
-% if c.group.membership_visibility == 'all' or c.group.membership_visibility == 'members' and c.user in c.group.members()  or can.group.edit(c.group):
+% if c.group.membership_visibility == model.Group.VISIBLE_ALL or c.group.membership_visibility == model.Group.VISIBLE_MEMBERS and c.user in c.group.members()  or can.group.edit(c.group):
     <h3>${_('Current members')}
 %if can.group.edit(c.group):
  <a href="${h.entity_url(c.group, member='members')}" class="btn">${_('manage members')}</a>
 %endif
     </h3>
-% if len(c.group.members()): 
+% if len(c.group_members): 
+
+
+    <div class="group-user-list">
+    <input placeholder="${_('Find member...')}" type="text" value="" id="member_search" data-ajax-url="${h.entity_url(c.group, member='userlist')}/members" data-link-href="${h.entity_url(c.group, member='members')}/" />
     <ul class="group-members">
-    % for member in c.group.members():
-    <li>${member.name}</li>
+    % for member in c.group_members:
+    <li><span><img src="${h.group.gravatar(member.email, 25)}">${member.name}</span></li>
     % endfor
     </ul>
+    % if c.more_group_members:
+    <p id="more-group-members">
+    % else:
+    <p id="more-group-members" style="display:none">
+    % endif
+     ${_('And')} <span>${c.more_group_members}</span> ${_('more')}...
+    </p>
+    </div>
+
+
+
+
 % else:
 <p>${_('No members in this group.')}</p>
 % endif

@@ -86,8 +86,12 @@ class GroupController(BaseController):
 
     def show(self, group_id):
         group = self.get_group_or_redirect(group_id)
+        user_limit = 10
         c.base_group_url = self.base_url
         c.group = group
+        c.group_members = model.User.search(limit=user_limit, include_group=group.id)
+        if len(c.group_members) == user_limit:
+            c.more_group_members = model.User.search(include_group=group.id, count_only=True) - user_limit
         c.tile = tiles.group.GroupTile(c.group)
         return render("/group/show.html")
         
