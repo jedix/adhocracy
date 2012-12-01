@@ -46,7 +46,7 @@ ${self.form()}
               style="width:90%; height: 10em" value="" >
     </textarea>
 
-    <label for="membership_visibility" class="">${_("Membership visibility")}</label>
+    <label for="membership_visibility" class="">${_("Who should be able to see the members of this group?")}</label>
     <select name="membership_visibility" id="membership_visibility">
     % for option in c.visibility_options:
        <option value="${option}">${_(option)}</option>

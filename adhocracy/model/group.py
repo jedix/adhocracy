@@ -31,9 +31,9 @@ group_roles_table = Table('group_roles', meta.data,
 # --[ Group base classes ]--------------------------------------------------
 class Group(object):
 
-    VISIBLE_NONE = u"none"
-    VISIBLE_MEMBERS = u"members"
-    VISIBLE_ALL = u"all"
+    VISIBLE_NONE = u"nobody"
+    VISIBLE_MEMBERS = u"only members of this group"
+    VISIBLE_ALL = u"everyone"
 
     MEMBERS_VISIBILITY = [VISIBLE_NONE, VISIBLE_MEMBERS, VISIBLE_ALL]
 
