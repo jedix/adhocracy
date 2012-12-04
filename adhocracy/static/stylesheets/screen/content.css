@@ -1636,6 +1636,7 @@ table.group-instances form, table.non-group-instances form { background:none; ma
 #undo-remove { background-color:#fdd; }
 #undo-add { background-color:#dfd; }
 #undo-remove ul, #undo-add ul { overflow-y:auto; max-height:80px;}
+ul.loading { background:url(/images/ajax-loader.gif) top right no-repeat; }
 .group-user-list { margin-bottom:2em; width:45%; float:left; margin-right:1em; }
 .group-user-list.right { float:right; clear:right; } 
 .group-user-list label { float:left; margin-right: 20px; line-height:30px; }

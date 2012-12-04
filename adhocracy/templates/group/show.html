@@ -51,10 +51,8 @@ ${c.tile.description|n}
 %endif
     </h3>
 % if len(c.group_members): 
-
-
     <div class="group-user-list">
-    <input placeholder="${_('Find member...')}" type="text" value="" id="member_search" data-ajax-url="${h.entity_url(c.group, member='userlist')}/members" data-link-href="${h.entity_url(c.group, member='members')}/" />
+    <input placeholder="${_('Find member...')}" type="text" value="" id="user_search" data-ajax-url="${h.entity_url(c.group, member='userlist')}/members" data-link-href="${h.entity_url(c.group, member='members')}/" />
     <ul class="group-members">
     % for member in c.group_members:
     <li><span><img src="${h.group.gravatar(member.email, 25)}">${member.name}</span></li>
@@ -68,10 +66,6 @@ ${c.tile.description|n}
      ${_('And')} <span>${c.more_group_members}</span> ${_('more')}...
     </p>
     </div>
-
-
-
-
 % else:
 <p>${_('No members in this group.')}</p>
 % endif

@@ -602,48 +602,61 @@ $(document).ready(function () {
         });
     });
 
-    var last_user_search = '';
-    $('body').delegate('#user_search, #member_search', 'keyup', function(event) {
+
+    $.filterUsers = function(data, input, search, list_class, action, link) {
+       var userid, username, email, mailhash, x, html;
+       html = "";
+       var regex = new RegExp( '(' + search + ')', 'gi' );
+       $('#more-' + list_class + ' span').html(data[0]);
+       if (data[0] == "0") {
+          $('#more-' + list_class).hide();
+       } else {
+          $('#more-' + list_class).show();
+       }
+       for (x in data[1]) {
+          userid = data[1][x][0];
+          username = data[1][x][1].replace(regex, "<b>$1</b>");
+          email = data[1][x][2].replace(regex, "<b>$1</b>");
+          mailhash = data[1][x][3];
+          if (link != "") {
+             html = html + '<li><a class="change_group_member" action="' + action + '" href="' + link + userid +  '/' + action + '"><img src="https://www.gravatar.com/avatar/' + mailhash + '?s=25" />' + username + ' (' + email + ')</a></li>';
+          } else {
+             html = html + '<li><span><img src="https://www.gravatar.com/avatar/' + mailhash + '?s=25" />' + username + '</span></li>';
+          }
+       }
+       $("." + list_class).html(html);
+       if (search == input.val()) {
+          $("." + list_class).removeClass("loading");
+       }
+    }
+
+    $('body').delegate('#user_search', 'keyup', function(event) {
         var self = $(this),
-            url, html, link,
-            userid, username, email, mailhash, x,
-            action, list_class,withLinks;
-
-        url = self.attr("data-ajax-url");
-        link = self.attr("data-link-href");
-        action = (self.attr("id") == "member_search") ? "remove" : "add";
-        list_class = (self.attr("id") == "member_search") ? "group-members" : "non-group-members";
-        withLinks = self.hasClass('with-links');
+            url1,url2,link,search;
+        search = self.val();
+        link = self.hasClass("with-links") ? self.attr("data-link-href") : "";
+        url1 = self.attr("data-ajax-url") + "members";
+        url2 = self.attr("data-ajax-url") + "non-members";
         if (self.val().trim() != '') {
-            url = url + "/" + self.val().trim();
+            url1 = url1 + "/" + self.val().trim();
+            url2 = url2 + "/" + self.val().trim();
         }
-        $.ajax({
-            url: url,
-            dataType: 'json',
-            success: function (data) {
-                html = "";
-                var regex = new RegExp( '(' + self.val() + ')', 'gi' );
-                $('#more-' + list_class + ' span').html(data[0]);
-                if (data[0] == "0") {
-                    $('#more-' + list_class).hide();
-                } else {
-                    $('#more-' + list_class).show();
-                }
-                for (x in data[1]) {
-                    userid = data[1][x][0];
-                    username = data[1][x][1].replace(regex, "<b>$1</b>");
-                    email = data[1][x][2].replace(regex, "<b>$1</b>");
-                    mailhash = data[1][x][3];
-                    if (withLinks) {
-                        html = html + '<li><a class="change_group_member" action="' + action + '" href="' + link + userid +  '/' + action + '"><img src="https://www.gravatar.com/avatar/' + mailhash + '?s=25" />' + username + ' (' + email + ')</a></li>';
-                    } else {
-                        html = html + '<li><span><img src="https://www.gravatar.com/avatar/' + mailhash + '?s=25" />' + username + '</span></li>';
-                    }
-                }
-                $('.' + list_class).html(html);
-            }
-        });
-
+        if ($(".group-members").length != 0) {
+           $(".group-members").addClass("loading");
+           $.ajax({
+               url: url1,
+               dataType: 'json',
+               success: function(data) { $.filterUsers(data, self, search, "group-members", "remove", link) }
+           });
+        }
+        if ($(".non-group-members").length != 0) {
+           $(".non-group-members").addClass("loading");
+           $.ajax({
+               url: url2,
+               dataType: 'json',
+               success: function(data) { $.filterUsers(data, self, search, "non-group-members", "add", link) }
+           });
+        }
     });
 
     $('a.change_group_member').live('click', function(event) {
@@ -671,11 +684,7 @@ $(document).ready(function () {
                             after_item = $(this);
                         }
                     });
-                    if (action == "add") {
-                        $('#user_search').val('').focus();
-                    } else {
-                        $('#member_search').val('').focus();
-                    }
+                    $('#user_search').val('').focus();
                     old_position = move_item.offset();
                     new_position = $('body ul.'+target_list).offset();
                     move_item.css({'position':'absolute', 'left':old_position.left, 'top':old_position.top, 'width':move_item.width()});

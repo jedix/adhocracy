@@ -37,7 +37,9 @@ ${self.form()}
       ${components.flashmessages()}
 
     <div class="group-user-list">
-    <input class="with-links" placeholder="${_('Find member...')}" type="text" value="" id="member_search" data-ajax-url="${h.entity_url(c.group, member='userlist')}/members" data-link-href="${h.entity_url(c.group, member='members')}/" />
+    <input class="with-links" placeholder="${_('Find user...')}" type="text" value="" id="user_search" data-ajax-url="${h.entity_url(c.group, member='userlist')}/" data-link-href="${h.entity_url(c.group, member='members')}/" />
+    <h4>${_('Group Members')}</h4>
+    <p>${_('Click on a a name to remove the user from this group.')}</p>
     <ul class="group-members">
     % for member in c.group_members:
     <li><a action="remove" class="change_group_member" href="${h.entity_url(c.group, member='members')}/${member.id}/remove"><img src="${h.group.gravatar(member.email, 25)}">${member.name} (${member.email})</a></li>
@@ -63,8 +65,8 @@ ${self.form()}
       </ul>
     </div>
     <div class="group-user-list right">
-    <label for="user_search">${_('Add members')}</label>
-    <input class="with-links" placeholder="${_('Find user...')}" type="text" value="" id="user_search" data-ajax-url="${h.entity_url(c.group, member='userlist')}/non-members" data-link-href="${h.entity_url(c.group, member='members')}/" />
+    <h4>${_('Non Group Members')}</h4>
+    <p>${_('Click on a a name to add the user to this group.')}</p>
     <ul class="non-group-members">
     % for member in c.non_group_members:
     <li><a action="add" class="change_group_member" href="${h.entity_url(c.group, member='members')}/${member.id}/add"><img src="${h.group.gravatar(member.email, 25)}">${member.name} (${member.email})</a></li>
