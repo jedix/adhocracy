@@ -11,10 +11,6 @@ from webhelpers.html import literal
 from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.unicode import UnicodeDictReader
 
-
-import logging
-log = logging.getLogger(__name__)
-
 FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings",
                    "join", "leave", "control", "test", "support", "page",
                    "proposal", "wiki", "blog", "proposals", "admin", "dl",

@@ -21,7 +21,6 @@ log = logging.getLogger(__name__)
 
 class UserImportForm(formencode.Schema):
     allow_extra_fields = True
-    #users_csv = forms.UsersCSV()
     users_csv = validators.String(
                     not_empty=True, 
                     messages={'empty' : L_('Please paste a CSV file')})
@@ -29,9 +28,9 @@ class UserImportForm(formencode.Schema):
                                           if_missing=False)
     email_subject = formencode.validators.String(
         messages={'empty': L_('Please insert a subject for the '
-                                  'mail we will send to the users.')})
+                              'mail we will send to the users.')})
     email_template = forms.ContainsEMailPlaceholders(
-            messages={'empty': L_('Please insert a template for the '
+        messages={'empty': L_('Please insert a template for the '
                               'mail we will send to the users.')})
 
     chained_validators = [ forms.UsersCSV() ]
@@ -87,7 +86,6 @@ class AdminController(BaseController):
         mailed = []
         errors = False
         users = []
-        log.error(form_result)
         for user_info in form_result['users_csv']:
             try:
                 name = user_info['user_name']

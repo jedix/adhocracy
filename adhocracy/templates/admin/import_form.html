@@ -31,12 +31,12 @@ ${self.form()}
 
         ${forms.checkbox(_("Send invite via email."), "send_invite", 3, checked=True)}
 
-        ${forms.input(_("Email Subject"), "email_subject", 3)}
+        ${forms.input(_("Email Subject"), "email_subject", 4)}
 
         <%forms:textarea label="${_('Email Template')}" 
                          name="email_template"
                          value=""
-                         tabindex="4">
+                         tabindex="5">
            <%def name="before()">
            <%
            required = [
