@@ -12,6 +12,9 @@ from adhocracy.lib.auth.authorization import has
 from adhocracy.lib.unicode import UnicodeDictReader
 
 
+import logging
+log = logging.getLogger(__name__)
+
 FORBIDDEN_NAMES = ["www", "static", "mail", "edit", "create", "settings",
                    "join", "leave", "control", "test", "support", "page",
                    "proposal", "wiki", "blog", "proposals", "admin", "dl",
@@ -406,9 +409,16 @@ class UnusedTitle(formencode.validators.String):
             return value
 
 
+
 USER_NAME = 'user_name'
-DISPLAY_NAME = 'display_name'
 EMAIL = 'email'
+DISPLAY_NAME = 'display_name'
+LOCALE = 'locale'
+
+MANDATORY_COLUMNS = ['user_name', 'email']
+OPTIONAL_COLUMNS = ['password', 'display_name', 'locale']
+ALLOWED_COLUMNS = MANDATORY_COLUMNS + OPTIONAL_COLUMNS
+
 USERNAME_VALIDATOR = UniqueUsername()
 EMAIL_VALIDATOR = formencode.All(formencode.validators.Email(),
                                  UniqueEmail())
@@ -416,8 +426,45 @@ EMAIL_VALIDATOR = formencode.All(formencode.validators.Email(),
 
 class UsersCSV(formencode.FancyValidator):
 
-    def to_python(self, value, state):
-        fieldnames = [USER_NAME, DISPLAY_NAME, EMAIL]
+    def to_python(self, field_dict, state):
+        error_messages = []
+        # check if mail is to be sent but subject or template is missing
+        send_invite = field_dict['send_invite']
+        if send_invite:
+            email_subject = field_dict['email_subject']
+            email_template = field_dict['email_template']
+            if not email_subject:
+                error_messages.append(_('You need to provide an email subject '
+                                        'to send invitation emails.'))
+            if not email_template:
+                error_messages.append(_('You need to provide an email template '
+                                         'to send invitation emails.'))
+
+        # check if CSV columns were overwritten
+        csv_columns = field_dict['csv_columns'].encode('utf-8')
+        if csv_columns:
+            fieldnames = csv_columns.split(',')
+            missing_columns = set(MANDATORY_COLUMNS) - set(fieldnames)
+            unknown_columns = set(fieldnames) - set(ALLOWED_COLUMNS)
+            if len(missing_columns) > 0:
+                error_messages.append('%s%s'%(_('You need to provide the following '
+                                                'columns in your CSV file: '),
+                                              ','.join(missing_columns)))
+            if len(unknown_columns) > 0:
+                error_messages.append('%s%s'%(_('The following columns in your CSV '
+                                                'file are unknown: '),
+                                              ','.join(unknown_columns)))
+        else:
+            fieldnames = [USER_NAME, DISPLAY_NAME, EMAIL]
+        field_dict['csv_columns'] = fieldnames
+
+        # nor raise error if anything went wrong
+        if len(error_messages) > 0:
+            raise formencode.Invalid(
+            ' '.join(error_messages),
+            field_dict, state)
+
+        value = field_dict['users_csv']
         errors = []
         items = []
         self.usernames = {}
@@ -460,7 +507,8 @@ class UsersCSV(formencode.FancyValidator):
             error_msg = error_msg % ('<br />'.join(line_error_messages))
             raise formencode.Invalid(literal(error_msg), value, state)
         else:
-            return items
+            field_dict['users_csv'] = items
+            return field_dict
 
     def _insert_duplicate_messages(self, line_error_messages, duplicate_dict,
                                    msg_template):

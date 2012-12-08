@@ -27,13 +27,16 @@ ${self.form()}
 
         </%forms:textarea>
 
+        ${forms.input(_("Overwrite default CSV columns"), "csv_columns", 2, help="%s %s"%(_('If your CSV file uses a different column order or different columns you can enter the column names here (separated by comma).'), _('Required columns are: username, email. Optional columns are: display_name, locale')))}
 
-        ${forms.input(_("Email Subject"), "email_subject", 2)}
+        ${forms.checkbox(_("Send invite via email."), "send_invite", 3, checked=True)}
+
+        ${forms.input(_("Email Subject"), "email_subject", 3)}
 
         <%forms:textarea label="${_('Email Template')}" 
                          name="email_template"
                          value=""
-                         tabindex="3">
+                         tabindex="4">
            <%def name="before()">
            <%
            required = [
