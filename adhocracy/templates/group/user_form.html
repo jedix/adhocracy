@@ -36,8 +36,10 @@ ${self.form()}
   <% h.need.spectrum %>
       ${components.flashmessages()}
 
-    <div class="group-user-list">
+    <div class="user-search">
     <input class="with-links" placeholder="${_('Find user...')}" type="text" value="" id="user_search" data-ajax-url="${h.entity_url(c.group, member='userlist')}/" data-link-href="${h.entity_url(c.group, member='members')}/" />
+    </div>
+    <div class="group-user-list">
     <h4>${_('Group Members')}</h4>
     <p>${_('Click on a a name to remove the user from this group.')}</p>
     <ul class="group-members">
