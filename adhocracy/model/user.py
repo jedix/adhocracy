@@ -279,8 +279,10 @@ class User(meta.Indexable):
     def search(cls, name_filter=None, include_group=None, exclude_group=None, include_deleted=False, limit=10, count_only=False):
         q = meta.Session.query(User)
         if not include_deleted:
+            now = datetime.utcnow()
+            next_hour = datetime(now.year, now.month, now.day, now.hour+1, 0, 0)
             q = q.filter(or_(User.delete_time == None,
-                             User.delete_time > datetime.utcnow()))
+                             User.delete_time > next_hour))
         if name_filter is not None:
             name_filter = name_filter.lower()
             q = q.filter(or_(func.lower(User.user_name).like(u"%" + name_filter + u"%"),
@@ -301,7 +303,7 @@ class User(meta.Indexable):
         q = q.limit(limit)
         return sorted(q.all(), key=lambda user:user.name.lower())
 
-    @classmethod
+    
     def find_by_email(cls, email, include_deleted=False):
         try:
             q = meta.Session.query(User)
@@ -346,8 +348,10 @@ class User(meta.Indexable):
         from membership import Membership
         q = meta.Session.query(User)
         if not include_deleted:
+            now = datetime.utcnow()
+            next_hour = datetime(now.year, now.month, now.day, now.hour+1, 0, 0)
             q = q.filter(or_(User.delete_time == None,
-                             User.delete_time > datetime.utcnow()))
+                             User.delete_time > next_hour))
         if instance:
             q = q.options(eagerload_all('memberships'))
             q = q.join(Membership)
