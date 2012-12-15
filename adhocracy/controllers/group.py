@@ -139,12 +139,14 @@ class GroupController(BaseController):
         c.group = group
         c.errors = errors
         user_limit = 10
+        c.more_group_members = 0
+        c.more_non_group_members = 0
         c.group_members = model.User.search(limit=user_limit, include_group=group.id)
         if len(c.group_members) == user_limit:
             c.more_group_members = model.User.search(include_group=group.id, count_only=True) - user_limit
         c.non_group_members = model.User.search(limit=user_limit, exclude_group=group.id)
         if len(c.non_group_members) == user_limit:
-            c.more_non_group_members = model.User.search(exclude_group=group.id, count_only=True) - user_limit
+            c.more_non_group_members = model.User.all_q().count() - (c.more_group_members + user_limit) -  user_limit
         return render("/group/user_form.html")
 
     @ActionProtector(has_permission("group.manage"))
