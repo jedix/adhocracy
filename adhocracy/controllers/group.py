@@ -138,9 +138,6 @@ class GroupController(BaseController):
         c.base_group_url = self.base_url
         c.group = group
         c.errors = errors
-        #c.group_members = model.User.search(include_group=group.id)
-        #c.non_group_members = model.User.search(exclude_group=group.id)
-        # With number of users (second query)
         user_limit = 10
         c.group_members = model.User.search(limit=user_limit, include_group=group.id)
         if len(c.group_members) == user_limit:
