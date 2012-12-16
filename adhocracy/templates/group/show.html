@@ -44,7 +44,7 @@ ${c.tile.description|n}
 <p>${_('No roles assigned to this group.')}</p>
 % endif
 
-% if c.group.membership_visibility == model.Group.VISIBLE_ALL or c.group.membership_visibility == model.Group.VISIBLE_MEMBERS and c.user in c.group.members()  or can.group.edit(c.group):
+% if c.group.membership_visibility == model.Group.VISIBLE_ALL or c.group.membership_visibility == model.Group.VISIBLE_MEMBERS and c.user in c.group.members() or c.group.membership_visibility == model.Group.VISIBLE_LOGGED_IN and c.user or can.group.edit(c.group):
     <h3>${_('Current members')}
 %if can.group.edit(c.group):
  <a href="${h.entity_url(c.group, member='members')}" class="btn">${_('manage members')}</a>

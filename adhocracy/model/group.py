@@ -33,9 +33,10 @@ class Group(object):
 
     VISIBLE_NONE = u"nobody"
     VISIBLE_MEMBERS = u"only members of this group"
+    VISIBLE_LOGGED_IN = u"only logged in users"
     VISIBLE_ALL = u"everyone"
 
-    MEMBERS_VISIBILITY = [VISIBLE_NONE, VISIBLE_MEMBERS, VISIBLE_ALL]
+    MEMBERS_VISIBILITY = [VISIBLE_NONE, VISIBLE_MEMBERS, VISIBLE_LOGGED_IN, VISIBLE_ALL]
 
 
     def __init__(self, group_name, description=None, membership_visibility=VISIBLE_NONE):
