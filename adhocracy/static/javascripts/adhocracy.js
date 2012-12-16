@@ -616,9 +616,9 @@ $(document).ready(function () {
        for (x in data[1]) {
           userid = data[1][x][0];
           username = data[1][x][1].replace(regex, "<b>$1</b>");
-          email = data[1][x][2].replace(regex, "<b>$1</b>");
-          mailhash = data[1][x][3];
+          mailhash = data[1][x][2];
           if (link != "") {
+             email = data[1][x][3].replace(regex, "<b>$1</b>");
              html = html + '<li><a class="change_group_member" action="' + action + '" href="' + link + userid +  '/' + action + '"><img src="https://www.gravatar.com/avatar/' + mailhash + '?s=25" />' + username + ' (' + email + ')</a></li>';
           } else {
              html = html + '<li><span><img src="https://www.gravatar.com/avatar/' + mailhash + '?s=25" />' + username + '</span></li>';
@@ -632,14 +632,19 @@ $(document).ready(function () {
 
     $('body').delegate('#user_search', 'keyup', function(event) {
         var self = $(this),
-            url1,url2,link,search;
+            url1,url2,link,search,mails;
         search = self.val();
         link = self.hasClass("with-links") ? self.attr("data-link-href") : "";
+        if (link != "") {
+            mails = "with-mails/";
+        } else {
+            mails = "without-mails/";
+        }
         url1 = self.attr("data-ajax-url") + "members";
         url2 = self.attr("data-ajax-url") + "non-members";
         if (self.val().trim() != '') {
-            url1 = url1 + "/" + self.val().trim();
-            url2 = url2 + "/" + self.val().trim();
+            url1 = url1 + "/" + mails + self.val().trim();
+            url2 = url2 + "/" + mails + self.val().trim();
         }
         if ($(".group-members").length != 0) {
            $(".group-members").addClass("loading");

@@ -322,8 +322,7 @@ class GroupController(BaseController):
         return self.members(group.id, errors=emails_not_found)
 
 
-    @ActionProtector(has_permission("group.manage"))
-    def userlist(self, group_id, type='members', name_filter=None, format='ajax'):
+    def userlist(self, group_id, type='members', name_filter=None, format='ajax', mails="without-mails"):
         group = model.Group.find(group_id)
         userlimit = 10
         count = 0
@@ -339,7 +338,10 @@ class GroupController(BaseController):
             if len(users) == userlimit:
                 count = model.User.search(name_filter, exclude_group=group.id, count_only=True) - userlimit
         for user in users:
-            userlist.append([user.id, user.name, user.email, hashlib.md5(user.email.lower()).hexdigest()])
+            if mails == "with-mails" and has_permission('group.manage'):
+                userlist.append([user.id, user.name, hashlib.md5(user.email.lower()).hexdigest(), user.email])
+            else:
+                userlist.append([user.id, user.name, hashlib.md5(user.email.lower()).hexdigest()])
         return render_json([count, userlist])
 
     def _get_common_fields(self, form_result):
