@@ -454,7 +454,7 @@ class UsersCSV(formencode.FancyValidator):
             fieldnames = [USER_NAME, DISPLAY_NAME, EMAIL]
         field_dict['csv_columns'] = fieldnames
 
-        # nor raise error if anything went wrong
+        # now raise error if anything went wrong
         if len(error_messages) > 0:
             raise formencode.Invalid(
             ' '.join(error_messages),

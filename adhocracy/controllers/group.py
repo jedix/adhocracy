@@ -161,7 +161,6 @@ class GroupController(BaseController):
             else:
                 all_instances = []
         c.instances = all_instances + q.all()
-        
         c.group = group
         c.roles = model.Role.all()
         return render("/group/role_form.html")
@@ -173,13 +172,10 @@ class GroupController(BaseController):
             self.form_result = GroupForm().to_python(request.params)
         except Invalid, i:
             return self.edit(group_id, i.unpack_errors())
-
         group = self.get_group_or_redirect(group_id)
         group_name, description, membership_visibility = self._get_common_fields(self.form_result)
         if membership_visibility not in model.Group.MEMBERS_VISIBILITY:
             raise AssertionError('Unknown membership visibility: %s' % membership_visibility)
-
-
         group.group_name = group_name
         group.description = description
         group.membership_visibility = membership_visibility
