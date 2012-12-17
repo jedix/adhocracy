@@ -24,8 +24,8 @@ def row(group):
                        group=group, cached=True)
 
 
-def header(group, tile=None, active='activity'):
+def navigation(group, tile=None, exclude=None):
     if tile is None:
         tile = GroupTile(group)
-    return render_tile('/group/tiles.html', 'header', tile,
-                       group=group, active=active)
+    return render_tile('/group/tiles.html', 'navigation', tile,
+                       group=group, exclude=exclude)

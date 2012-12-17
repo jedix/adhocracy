@@ -9,13 +9,7 @@
 
 <%block name="headline">
 %if c.form_type == 'update':
-<div class="top_actions title">
-    <a class="button title edit" href="${c.base_group_url}">${_("group list")}</a>
-    <a class="button title edit" href="${h.entity_url(c.group, member='members')}">${_("manage members")}</a>
-    <a class="button title edit" href="${h.entity_url(c.group, member='import')}">${_("import members")}</a>
-    <a class="button title edit" href="${h.entity_url(c.group, member='roles')}">${_("assign roles")}</a>
-    <a class="button title edit" href="${h.entity_url(c.group, member='ask_delete')}">${_("delete group")}</a>
-</div>
+${tiles.group.navigation(group=c.group, exclude='edit')}
 <h1 class="page_title">${_('Edit group:')} ${c.group.group_name}</h1>
 %else:
 <div class="top_actions title">

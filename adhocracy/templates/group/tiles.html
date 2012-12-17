@@ -16,3 +16,28 @@
         <div class="hr"><hr /></div>
     </li>
 </%def>
+
+<%def name="navigation(tile, group, exclude)">
+<div class="top_actions title">
+    %if can.group.edit(group):
+        %if not exclude == "list":
+            <a class="button title edit" href="${c.base_group_url}">${_("group list")}</a>
+        %endif
+        %if not exclude == "edit":
+            <a class="button title edit" href="${h.entity_url(group, member='edit')}">${_("edit group")}</a>
+        %endif
+        %if not exclude == "members":
+            <a class="button title edit" href="${h.entity_url(group, member='members')}">${_("manage members")}</a>
+        %endif
+        %if not exclude == "import":
+            <a class="button title edit" href="${h.entity_url(group, member='import')}">${_("import members")}</a>
+        %endif
+        %if not exclude == "roles":
+            <a class="button title edit" href="${h.entity_url(group, member='roles')}">${_("assign roles")}</a>
+        %endif
+        %if not exclude == "delete":
+            <a class="button title edit" href="${h.entity_url(group, member='ask_delete')}">${_("delete group")}</a>
+        %endif
+    %endif
+</div>
+</%def>
